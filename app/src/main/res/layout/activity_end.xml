@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="如需重新测试请卸载软件后重装软件！！"
+    android:textSize="30dp"
+    android:textColor="#000"
+    android:textStyle="bold" />
+    <TextView
+        android:id="@+id/showRtcResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="#000"/>
+    <Button
+        android:id="@+id/appendResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="生成测试报告"
+        />
+    <Button
+        android:id="@+id/recovery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="恢复出厂设置"/>
+</LinearLayout>
