@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.x6.androidmachinetest.Activity.UI.BlueTooth;
 import com.example.x6.androidmachinetest.Activity.UI.Eth;
 import com.example.x6.androidmachinetest.Activity.UI.GPIO;
+import com.example.x6.androidmachinetest.Activity.UI.GPS;
 import com.example.x6.androidmachinetest.Activity.UI.Headhhone;
 import com.example.x6.androidmachinetest.Activity.UI.MobileNet;
 import com.example.x6.androidmachinetest.Activity.UI.RTC;
@@ -73,6 +74,7 @@ public class TestActivity extends Activity {
     private MobileNet mobileNet = null;
     private RTC rtcTest = null;
     private TFCARD tfcardTest = null;
+    private GPS gpsTest = null;
 
     Handler handler = new Handler(){
         @Override
@@ -247,6 +249,14 @@ public class TestActivity extends Activity {
                     result.mobileNetTest = "测试不通过";
             }
         }
+        if(gpsTest != null){
+            if(currentPosition == gpsTest.getPosition()){
+                if(isPass)
+                    result.gpsTest = "测试通过";
+                else
+                    result.gpsTest = "测试不通过";
+            }
+        }
 
         debug.logw(result.showResult());
     }
@@ -305,7 +315,7 @@ public class TestActivity extends Activity {
                 speakTest.startTest(this);
                 debug.logd("添加外放布局");
             }
-        };
+        }
         if(headhhoneTest != null) {
             if (headhhoneTest.getPosition() == nextTestNum) {
                 linearLayout.addView(headhhoneTest.getLineout());
@@ -395,7 +405,14 @@ public class TestActivity extends Activity {
             if(mobileNet.getPosition() == nextTestNum){
                 linearLayout.addView(mobileNet.getLineout());
                 mobileNet.startTest(this,handler);
-                debug.logd("添加移动网络");
+                debug.logd("添加移动网络测试布局");
+            }
+        }
+        if(gpsTest != null){
+            if(gpsTest.getPosition() == nextTestNum){
+                linearLayout.addView(gpsTest.getLineout());
+                gpsTest.startTest(this,handler);
+                debug.logd("添加GPS测试布局");
             }
         }
         if(rtcTest != null){
@@ -515,6 +532,13 @@ public class TestActivity extends Activity {
                 debug.logd("移除移动网络测试布局");
             }
         }
+        if(gpsTest != null){
+            if(gpsTest.getPosition() == currentTest){
+                gpsTest.finish();
+                linearLayout.removeView(gpsTest.getLineout());
+                debug.logd("移除GPS测试布局");
+            }
+        }
         if(rtcTest != null){
             if(rtcTest.getPosition() == currentTest){
                 rtcTest.finish();
@@ -534,7 +558,7 @@ public class TestActivity extends Activity {
 
 
     private void initAllTestProject(Context context){
-        int i = 0;
+        int i;
         for (i = 0; i< planTest.planStep.length; i++) {
             String string = planTest.planStep[i];
             if (string.equals(PreMachineInfo.SPEAK_TEST)) {
@@ -553,8 +577,11 @@ public class TestActivity extends Activity {
                 blueToothTest = new BlueTooth(context,"蓝牙测试",handler);
                 blueToothTest.setPosition(i);
             } else if (string.equals(PreMachineInfo.MOBILE_NET_TEST)) {
-                mobileNet = new MobileNet(context,"移动网络测试",handler);
+                mobileNet = new MobileNet(context, "移动网络测试", handler);
                 mobileNet.setPosition(i);
+            } else if (string.endsWith(PreMachineInfo.GPS_TEST)){
+                gpsTest = new GPS(context,"GPS功能测试",handler);
+                gpsTest.setPosition(i);
             } else if (string.equals(PreMachineInfo.ETH_A33_TEST) ||
                     string.equals(PreMachineInfo.ETH_H3_TEST) ||
                     string.equals(PreMachineInfo.ETH_RK3288_1_TEST) ||
@@ -599,7 +626,7 @@ public class TestActivity extends Activity {
 
 
     private void syncStepView(int i){
-        int j = 0;
+        int j;
         for(j = 0; j < testProject.length; j++){
             if(j == i)
                 testProject[j].setBackgroundColor(Color.BLUE);
@@ -617,7 +644,7 @@ public class TestActivity extends Activity {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1f);
 
         testProject = new TextView[planTest.planStep.length];
-        int i = 0;
+        int i;
         for(String string: planTest.planStep)
             debug.loge(string);
         debug.loge(String.valueOf(planTest.planStep.length));
@@ -707,6 +734,11 @@ public class TestActivity extends Activity {
         if(mobileNet != null){
             if(currentPosition == mobileNet.getPosition())
                 mobileNet.finish();
+        }
+        if(gpsTest != null){
+            if(currentPosition == gpsTest.getPosition()){
+                gpsTest.finish();
+            }
         }
         if(rtcTest != null){
             if(currentPosition == rtcTest.getPosition())

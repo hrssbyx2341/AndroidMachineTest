@@ -91,6 +91,9 @@ public class Result {
         if(mobileNetTest !=null)
             if(!excelUtils.writeToExcel(filePath,"移动网络",mobileNetTest))
                 isOk = false;
+        if(gpsTest != null)
+            if(!excelUtils.writeToExcel(filePath,"GPS功能",gpsTest))
+                isOk = false;
         if(ethTest != null)
             if(!excelUtils.writeToExcel(filePath,"以太网",ethTest))
                 isOk = false;
@@ -133,6 +136,7 @@ public class Result {
     public String wifiTest = null;
     public String blueToothTest = null;
     public String mobileNetTest = null;
+    public String gpsTest = null;
 
     public String ethTest = null;
     public String ethTestReMark = null;
@@ -168,6 +172,8 @@ public class Result {
             result +="蓝牙测试："+blueToothTest+"\n";
         if(mobileNetTest !=null)
             result+="移动网络测试："+mobileNetTest+"\n";
+        if(gpsTest !=null)
+            result+="GPS功能测试："+gpsTest+"\n";
         if(ethTest != null)
             result+="以太网测试："+ethTest+"\n";
         if(ethTestReMark != null)
@@ -203,6 +209,7 @@ public class Result {
         wifiTest = null;
         blueToothTest = null;
         mobileNetTest = null;
+        gpsTest = null;
         ethTest = null;
         ethTestReMark = null;
         RS232Test = null;

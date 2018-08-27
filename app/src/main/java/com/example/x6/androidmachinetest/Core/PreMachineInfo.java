@@ -58,6 +58,7 @@ public class PreMachineInfo {
     public final static String WFIF_TEST = "WiFi";
     public final static String BLUETOOTH_TEST = "蓝牙";
     public final static String MOBILE_NET_TEST = "移动网络";
+    public final static String GPS_TEST = "GPS测试";
     public final static String ETH_A33_TEST = "A33以太网";
     public final static String ETH_H3_TEST = "H3以太网";
     public final static String ETH_RK3288_1_TEST = "3288以太网1";

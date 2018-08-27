@@ -189,8 +189,10 @@ public class PlanTest {
 //            vector.add(PreMachineInfo.ERROR_WIFI_TEST);
 //        }
         if(machineInfoData.mobileModule != null )
-            if(machineInfoData.mobileModule.equals(PreMachineInfo.EC20))
+            if(machineInfoData.mobileModule.equals(PreMachineInfo.EC20)) {
                 vector.add(PreMachineInfo.MOBILE_NET_TEST);
+                vector.add(PreMachineInfo.GPS_TEST); //添加GPS测试
+            }
 //        if((machineInfoData.mobileModule == null && machineInfoData.ISPHONE)||
 //                (machineInfoData.mobileModule != null) && (!machineInfoData.ISPHONE))
 //            vector.add(PreMachineInfo.ERROR_PHONE_TEST);
@@ -247,7 +249,7 @@ public class PlanTest {
             vector.add(PreMachineInfo.RTC_TEST);
 
         String[] tempStrings = new String[vector.size()];
-        int i = 0;
+        int i;
         for(i = 0; i < vector.size(); i++) {
             tempStrings[i] = vector.get(i);
         }
