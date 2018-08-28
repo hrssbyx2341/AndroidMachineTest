@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.x6.androidmachinetest.Core.PreMachineInfo;
 import com.example.x6.androidmachinetest.Data.AfterShutDownData;
+import com.example.x6.androidmachinetest.DataBase.TestDataBaseUtils;
 import com.example.x6.androidmachinetest.R;
 import com.example.x6.androidmachinetest.function.Debug;
 import com.example.x6.androidmachinetest.function.ExcelUtils;
@@ -56,12 +57,16 @@ public class EndActivity extends Activity {
             +"时间超过\"一小时\"RTC测试不通过");
             display.setTextColor(Color.RED);
             isRtcPass = false;
+            //这里写入RTC测试结果数据库
+            TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).updateRTC(0);
         }else{
             display.setText("当前时间："+formatTime(currentTime)+"\n"
                     +"掉电前时间："+formatTime(afterShutDownData.getTimeBeforeShutDown())+"\n"
                     +"时间不超过\"一小时\"RTC测试通过");
             display.setTextColor(Color.BLUE);
             isRtcPass = true;
+            //这里写入RTC测试结果数据库
+            TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).updateRTC(1);
         }
 
         appendReporter.setOnClickListener(new View.OnClickListener() {

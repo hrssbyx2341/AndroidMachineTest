@@ -36,8 +36,10 @@ import com.example.x6.androidmachinetest.Core.MachineInfoData;
 import com.example.x6.androidmachinetest.Core.PlanTest;
 import com.example.x6.androidmachinetest.Core.PreMachineInfo;
 import com.example.x6.androidmachinetest.Core.Result;
+import com.example.x6.androidmachinetest.DataBase.TestDataBaseUtils;
 import com.example.x6.androidmachinetest.R;
 import com.example.x6.androidmachinetest.function.Debug;
+import com.example.x6.androidmachinetest.function.GetUUID;
 
 /**
  * Created by 24179 on 2018/7/11.
@@ -76,6 +78,176 @@ public class TestActivity extends Activity {
     private TFCARD tfcardTest = null;
     private GPS gpsTest = null;
 
+    /*************************************************/
+    /*      测试数据在每次按下下一项后写入数据库     */
+    /*************************************************/
+    private void updateDataBase(){
+        int temp = currentPosition - 1;
+        String Pass = "测试通过";
+        String NotPass = "测试不通过";
+        TestDataBaseUtils testDataBaseUtils = TestDataBaseUtils.getTestDataBaseUtils(TestActivity.this.getApplicationContext());
+        if(speakTest!=null){
+            if(temp == speakTest.getPosition()){
+                debug.loge("spk");
+                if(result.speakTestResult.equals(Pass)) {
+                    testDataBaseUtils.updateSpk(1);
+                }else if(result.speakTestResult.equals(NotPass)){
+                    testDataBaseUtils.updateSpk(0);
+                }
+            }
+        }
+        if(headhhoneTest!=null){
+            if(temp == headhhoneTest.getPosition()){
+                debug.loge("hp");
+                if(result.headPhoneTestResult.equals(Pass)) {
+                    testDataBaseUtils.updateHp(1);
+                }else if(result.headPhoneTestResult.equals(NotPass)){
+                    testDataBaseUtils.updateHp(0);
+                }
+            }
+        }
+        if(recordTest!=null){
+            if(temp == recordTest.getPosition()){
+                debug.loge("rec");
+                if(result.recordTest.equals(Pass)) {
+                    testDataBaseUtils.updateRecord(1);
+                }else if(result.recordTest.equals(NotPass)){
+                    testDataBaseUtils.updateRecord(0);
+                }
+            }
+        }
+        if(ethTest!=null){
+            if(temp == ethTest.getPosition()){
+                debug.loge("eth");
+                if(result.ethTest.equals(Pass)) {
+                    testDataBaseUtils.updateEth(1);
+                }else if(result.ethTest.equals(NotPass)){
+                    testDataBaseUtils.updateEth(0);
+                }
+            }
+        }
+        if(wifiTest!=null){
+            if(temp == wifiTest.getPosition()){
+                debug.loge("wifi");
+                if(result.wifiTest.equals(Pass)) {
+                    testDataBaseUtils.updateWifi(1);
+                }else if(result.wifiTest.equals(NotPass)){
+                    testDataBaseUtils.updateWifi(0);
+                }
+            }
+        }
+        if(blueToothTest!=null){
+            if(temp == blueToothTest.getPosition()){
+                debug.loge("bt");
+                if(result.blueToothTest.equals(Pass)) {
+                    testDataBaseUtils.updateBT(1);
+                }else if(result.blueToothTest.equals(NotPass)){
+                    testDataBaseUtils.updateBT(0);
+                }
+            }
+        }
+        if(serial232Test!=null){
+            if(temp == serial232Test.getPosition()){
+                debug.loge("232");
+                if(result.RS232Test.equals(Pass)) {
+                    testDataBaseUtils.updateRS232(1);
+                }else if(result.RS232Test.equals(NotPass)){
+                    testDataBaseUtils.updateRS232(0);
+                }
+            }
+        }
+        if(serial485Odd!=null && serial485Even==null){
+            if(temp == serial485Odd.getPosition()){
+                debug.loge("485o");
+                if(result.RS485Test.equals(Pass)) {
+                    testDataBaseUtils.updateRS485(1);
+                }else if(result.RS485Test.equals(NotPass)){
+                    testDataBaseUtils.updateRS485(0);
+                }
+            }
+        }
+        if(serial485Odd == null && serial485Even!=null){
+            if(temp == serial485Even.getPosition()){
+                debug.loge("485e");
+                if(result.RS485Test.equals(Pass)) {
+                    testDataBaseUtils.updateRS485(1);
+                }else if(result.RS485Test.equals(NotPass)){
+                    testDataBaseUtils.updateRS485(0);
+                }
+            }
+        }
+        if(usbTest != null){
+            if(temp == usbTest.getPosition()){
+                debug.loge("usb");
+                if(result.USBTest.equals(Pass)) {
+                    testDataBaseUtils.updateUSB(1);
+                }else if(result.USBTest.equals(NotPass)){
+                    testDataBaseUtils.updateUSB(0);
+                }
+            }
+        }
+        if(gpioTest != null){
+            if(temp == gpioTest.getPosition()){
+                debug.loge("gpio");
+                if(result.GpioTest.equals(Pass)) {
+                    testDataBaseUtils.updateGPIO(1);
+                }else if(result.GpioTest.equals(NotPass)){
+                    testDataBaseUtils.updateGPIO(0);
+                }
+            }
+        }
+        if(screenTets != null){
+            if(temp == screenTets.getPosition()){
+                debug.loge("screen");
+                if(result.ScreenTest.equals(Pass)) {
+                    testDataBaseUtils.updateScreen(1);
+                }else if(result.ScreenTest.equals(NotPass)){
+                    testDataBaseUtils.updateScreen(0);
+                }
+            }
+        }
+        if(touchTest != null){
+            if(temp == touchTest.getPosition()){
+                debug.loge("touch");
+                if(result.TouchScreenTest.equals(Pass)) {
+                    testDataBaseUtils.updateTS(1);
+                }else if(result.TouchScreenTest.equals(NotPass)){
+                    testDataBaseUtils.updateTS(0);
+                }
+            }
+        }
+        if(mobileNet != null){
+            if(temp == mobileNet.getPosition()){
+                debug.loge("mobilenet");
+                if(result.mobileNetTest.equals(Pass)) {
+                    testDataBaseUtils.updateMobileNet(1);
+                }else if(result.mobileNetTest.equals(NotPass)){
+                    testDataBaseUtils.updateMobileNet(0);
+                }
+            }
+        }
+        if(tfcardTest != null){
+            if(temp == tfcardTest.getPosition()){
+                debug.loge("tfcard");
+                if(result.TFCARDTest.equals(Pass)) {
+                    testDataBaseUtils.updateTF(1);
+                }else if(result.TFCARDTest.equals(NotPass)){
+                    testDataBaseUtils.updateTF(0);
+                }
+            }
+        }
+        if(gpsTest != null){
+            if(temp == gpsTest.getPosition()){
+                debug.loge("gps");
+                if(result.gpsTest.equals(Pass)) {
+                    testDataBaseUtils.updateGPS(1);
+                }else if(result.gpsTest.equals(NotPass)){
+                    testDataBaseUtils.updateGPS(0);
+                }
+            }
+        }
+    }
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -103,6 +275,12 @@ public class TestActivity extends Activity {
             }
         }
     };
+
+
+
+
+
+
     public static void syncResultList(Handler handler,int i,boolean isPass){
         Bundle bundle = new Bundle();
         Message message = new Message();
@@ -260,6 +438,20 @@ public class TestActivity extends Activity {
 
         debug.logw(result.showResult());
     }
+
+    /**
+     * 设备信息录入数据库
+     */
+    private void updateBaseDate(){
+        TestDataBaseUtils testDataBaseUtils = TestDataBaseUtils.getTestDataBaseUtils(TestActivity.this);
+        testDataBaseUtils.updateType(MachineInfoData.getMachineInfoData().typeName);
+        testDataBaseUtils.updateName(MachineInfoData.getMachineInfoData().typeName+"_"+MachineInfoData.getMachineInfoData().UUID);
+        testDataBaseUtils.updateCpuType(MachineInfoData.getMachineInfoData().cpuName);
+        testDataBaseUtils.updateCpuSerial(GetUUID.getUUID());
+        testDataBaseUtils.updateLastUpdateDate(android.os.Build.VERSION.INCREMENTAL);
+        testDataBaseUtils.updateUuid(MachineInfoData.getMachineInfoData().UUID);
+        debug.logw("写入数据库设备相关数据");
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -279,7 +471,7 @@ public class TestActivity extends Activity {
         nextTest.setEnabled(false);
 
         initAllTestProject(this); //把所有要测试的项目都初始化一下。
-
+        updateBaseDate();//相关设备信息
         nextTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -295,7 +487,7 @@ public class TestActivity extends Activity {
                 syncStepView(currentPosition+1);
                 currentPosition ++;
                 setContentView(linearLayout);
-
+                updateDataBase();
                 nextTest.setEnabled(false);//disable nextTest Button
             }
         });

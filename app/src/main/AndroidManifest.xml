@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.x6.androidmachinetest"
-    android:sharedUserId="android.uid.system">
+    package="com.example.x6.androidmachinetest">
+    <!--android:sharedUserId="android.uid.system">-->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name = "android.permission.DISABLE_KEYGUARD"/>
@@ -24,7 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.StartActivity"
+        <activity android:name=".Activity.DebugActivity"
             android:configChanges="keyboardHidden|mcc|mnc|keyboard|orientation|touchscreen|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.DebugActivity"
+        <activity android:name=".Activity.StartActivity"
             android:configChanges="keyboardHidden|mcc|mnc|keyboard|orientation|touchscreen|screenLayout"/>
         <activity android:name=".Activity.TestActivity"
             android:configChanges="keyboardHidden|mcc|mnc|keyboard|orientation|touchscreen|screenLayout"/>

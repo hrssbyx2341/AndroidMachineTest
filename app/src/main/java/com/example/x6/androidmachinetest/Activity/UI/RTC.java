@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.x6.androidmachinetest.Core.MachineInfoData;
 import com.example.x6.androidmachinetest.Core.Result;
+import com.example.x6.androidmachinetest.DataBase.TestDataBaseUtils;
 import com.example.x6.androidmachinetest.function.Debug;
 import com.example.x6.androidmachinetest.function.EthControl;
 import com.example.x6.androidmachinetest.function.ExcelUtils;
@@ -230,6 +231,8 @@ public class RTC extends AutoCommon{
         editor.putString("CpuName",MachineInfoData.getMachineInfoData().cpuName);
         editor.putString("MachineType",MachineInfoData.getMachineInfoData().typeName);
         editor.putLong("TimeBeforeShutDown",System.currentTimeMillis());
+        //这里是确认时间正确后的时间，在这里插入测试时间的数据库写入。
+        TestDataBaseUtils.getTestDataBaseUtils(context).updateTestDateTime(System.currentTimeMillis());
         editor.putString("TempReporterPath",result.getTestReporterPtah()+reporterFile);
         editor.commit();
         if(!sharedPreferences.getString("CpuName","null").equals(MachineInfoData.getMachineInfoData().cpuName))
