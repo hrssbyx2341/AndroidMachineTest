@@ -129,7 +129,11 @@ public class Serial485Even extends AutoCommon{
                     serial485Remark("串口3 -> 串口2 失败");
                     isSerial485Ok = false;
                 }
-                TestActivity.syncResultList(handler,getPosition(),isSerial485Ok);
+                if(isSerial485Ok){
+                    TestActivity.syncResultList(handler,getPosition(),1);
+                }else{
+                    TestActivity.syncResultList(handler,getPosition(),0);
+                }
                 handler.sendEmptyMessage(0);
                 handler.post(new Runnable() {
                     @Override

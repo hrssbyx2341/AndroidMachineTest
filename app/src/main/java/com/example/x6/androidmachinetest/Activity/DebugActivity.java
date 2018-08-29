@@ -59,17 +59,17 @@ public class DebugActivity extends Activity {
         super.onCreate(savedInstanceState);
         debug = new Debug("测试界面");
 
+        startActivity(new Intent(Settings.ACTION_SETTINGS));
 
 
-
-        testDataBaseUtils = TestDataBaseUtils.getTestDataBaseUtils(this.getApplicationContext());
-        testDataBaseUtils.updateType("B301");
-        testDataBaseUtils.updateName("B301_TW99998888");
-        testDataBaseUtils.updateCpuSerial("87689e7916e700000000");
-        testDataBaseUtils.updateCpuType("H3");
-        testDataBaseUtils.updateLastUpdateDate("2018-08-27");
-        testDataBaseUtils.updateTestDateTime(System.currentTimeMillis());
-        testDataBaseUtils.updateUuid("TW99998888");
+//        testDataBaseUtils = TestDataBaseUtils.getTestDataBaseUtils(this.getApplicationContext());
+//        testDataBaseUtils.updateType("B301");
+//        testDataBaseUtils.updateName("B301_TW99998888");
+//        testDataBaseUtils.updateCpuSerial("87689e7916e700000000");
+//        testDataBaseUtils.updateCpuType("H3");
+//        testDataBaseUtils.updateLastUpdateDate("2018-08-27");
+//        testDataBaseUtils.updateTestDateTime(System.currentTimeMillis());
+//        testDataBaseUtils.updateUuid("TW99998888");
 
 
 //        testDataBaseUtils.updateSpk(TestDataBaseUtils.PASS);
@@ -89,16 +89,16 @@ public class DebugActivity extends Activity {
 //        testDataBaseUtils.updateRS232(TestDataBaseUtils.PASS);
 //        testDataBaseUtils.updateRTC(TestDataBaseUtils.PASS);
 
-
-        testDataBaseUtils.updateISPass();
-        debug.loge(testDataBaseUtils.jsonEncodeFromDB());
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                testDataBaseUtils.upLoad();
-            }
-        }).start();
+//
+//        testDataBaseUtils.updateISPass();
+//        debug.loge(testDataBaseUtils.jsonEncodeFromDB());
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                testDataBaseUtils.upLoad();
+//            }
+//        }).start();
 
 //        lineout = new LinearLayout(this);
 //        lineout.setOrientation(LinearLayout.VERTICAL);

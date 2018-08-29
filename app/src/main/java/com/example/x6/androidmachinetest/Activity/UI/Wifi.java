@@ -33,10 +33,10 @@ public class Wifi extends AutoCommon {
                 case 1:
                     appendWifiState(wifiControl.getMsg(msg),Color.BLUE);
                     handlerP.sendEmptyMessage(0);
-                    TestActivity.syncResultList(handlerP,getPosition(),true);
+                    TestActivity.syncResultList(handlerP,getPosition(),1);
                     break;
                 case 2:
-                    TestActivity.syncResultList(handlerP,getPosition(),false); //wifi超过5S打不开，那就识别为WIFI有故障
+                    TestActivity.syncResultList(handlerP,getPosition(),0); //wifi超过5S打不开，那就识别为WIFI有故障
                     handlerP.sendEmptyMessage(0);
                     getTextView().setText("WIFI 打开超时，请检查WIFI是否有故障");
                     getTextView().setTextColor(Color.RED);

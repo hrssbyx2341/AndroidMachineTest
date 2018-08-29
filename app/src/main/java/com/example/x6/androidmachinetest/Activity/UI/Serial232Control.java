@@ -110,7 +110,8 @@ public class Serial232Control extends Serial232 {
                 || (machineInfoData.typeName.equals(PreMachineInfo.B301) && machineInfoData.ISRS485)
                 || (machineInfoData.typeName.equals(PreMachineInfo.B301_LVDS) && machineInfoData.ISRS485)
                 || (machineInfoData.typeName.equals(PreMachineInfo.B701) && machineInfoData.ISRS485)
-                || (machineInfoData.typeName.equals(PreMachineInfo.B601) && machineInfoData.ISRS485)) {
+                || (machineInfoData.typeName.equals(PreMachineInfo.B601) && machineInfoData.ISRS485)
+                || (machineInfoData.typeName.equals(PreMachineInfo.B301D_ELE01))) {
             setSerialNum(2);
             textView = new TextView[getSerialNum()];
             int i = 0;
@@ -207,7 +208,11 @@ public class Serial232Control extends Serial232 {
                         isOk = false;
                     }
                 }
-                TestActivity.syncResultList(handler,getPosition(),isOk);
+                if(isOk){
+                    TestActivity.syncResultList(handler,getPosition(),1);
+                }else{
+                    TestActivity.syncResultList(handler,getPosition(),0);
+                }
                 handler.sendEmptyMessage(0);
                 handler.post(new Runnable() {
                     @Override

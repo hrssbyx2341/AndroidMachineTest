@@ -170,9 +170,9 @@ public class Eth extends AutoCommon {
                 getTextView().setText(message);
                 getTextView().setTextColor(color);
                 if(color == Color.RED)
-                    TestActivity.syncResultList(handler,getPosition(),false);
+                    TestActivity.syncResultList(handler,getPosition(),1);
                 else if(color == Color.BLUE)
-                    TestActivity.syncResultList(handler,getPosition(),true);
+                    TestActivity.syncResultList(handler,getPosition(),0);
             }
         });
     }

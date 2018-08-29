@@ -58,6 +58,7 @@ public class MachineInfoData {
     public boolean ISPHONE = false;
 
     public boolean SCREEN = false;
+    public boolean CAMERA_ONE = false;
     public boolean TOUCH_SCREEN = false;
     public int GPIONUM = -1;
     public int[] GPIO = null;
@@ -92,6 +93,7 @@ public class MachineInfoData {
         ISWIFI = false;
         ISPHONE = false;
         SCREEN = false;
+        CAMERA_ONE = false;
         TOUCH_SCREEN = false;
         GPIONUM = -1;
         GPIO = null;

@@ -24,6 +24,8 @@ public class PreMachineInfo {
     public final static String K10 = "K10";
     public final static String B301 = "B301";
     public final static String B301_LVDS = "B301_LVDS";
+    public final static String B301D_ELE01 = "B301D_ELE01";
+
     public final static String B701 = "B701";
     public final static String B601 = "B601";
 
@@ -55,6 +57,7 @@ public class PreMachineInfo {
     public final static String SPEAK_TEST = "外放";
     public final static String HEADPHONE_TEST = "耳机";
     public final static String RECORD_TEST = "录音";
+    public final static String CAMERA_ONE_TEST = "单个摄像头录像";
     public final static String WFIF_TEST = "WiFi";
     public final static String BLUETOOTH_TEST = "蓝牙";
     public final static String MOBILE_NET_TEST = "移动网络";

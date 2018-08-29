@@ -40,7 +40,7 @@ public class MobileNet extends Common {
                 getNo().setEnabled(false);
                 getNo().setTextColor(Color.WHITE);
                 handler.sendEmptyMessage(0);
-                TestActivity.syncResultList(handler,getPosition(),true);
+                TestActivity.syncResultList(handler,getPosition(),1);
             }
         });
         getNo().setOnClickListener(new View.OnClickListener() {
@@ -50,7 +50,7 @@ public class MobileNet extends Common {
                 getNo().setEnabled(false);
                 getYes().setTextColor(Color.WHITE);
                 handler.sendEmptyMessage(0);
-                TestActivity.syncResultList(handler,getPosition(),false);
+                TestActivity.syncResultList(handler,getPosition(),0);
             }
         });
         getReTest().setOnClickListener(new View.OnClickListener() {

@@ -31,6 +31,11 @@ public class TestDataBaseOpenHelper extends SQLiteOpenHelper {
             "HpNotPassTimes integer DEFAULT 0," +
             "HpEndResult integer DEFAULT -1," +
 
+            "CameraTestTimes integer DEFAULT 0," +
+            "CameraPassTimes integer DEFAULT 0," +
+            "CameraNotPassTimes integer DEFAULT 0," +
+            "CameraEndResult integer DEFAULT -1," +
+
             "RecordTestTimes integer DEFAULT 0," +
             "RecordPassTimes integer DEFAULT 0," +
             "RecordNotPassTimes integer DEFAULT 0," +

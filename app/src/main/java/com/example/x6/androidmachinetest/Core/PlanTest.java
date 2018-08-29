@@ -29,6 +29,11 @@ public class PlanTest {
     private GetMachineInfo getMachineInfo = new GetMachineInfo();
 
 
+    /*************************************************************************************************************/
+    /*      initMachineInfoData() 函数用于初始化数据，把要测试的项目写到一个集合里面，添加测试项目这里一定要加   */
+    /*      setPlanStep() 函数获取添加好的集合，对测试项目进行一个计划排版，添加测试项目，这里也一定要改动       */
+    /*************************************************************************************************************/
+
     public void initMachineInfoData(Context context,String typeName,String UUID,Boolean isRS485,Boolean isWifiTest,Boolean isPHONE){
         machineInfoData.cpuName = getMachineInfo.getCupName();
         machineInfoData.typeName = typeName;
@@ -105,7 +110,8 @@ public class PlanTest {
             machineInfoData.GPIO = gpio;
             machineInfoData.RTC = true;
         }
-        if(machineInfoData.typeName.equals(PreMachineInfo.B301) || machineInfoData.typeName.equals(PreMachineInfo.B301_LVDS)){
+        if(machineInfoData.typeName.equals(PreMachineInfo.B301) || machineInfoData.typeName.equals(PreMachineInfo.B301_LVDS)
+                || machineInfoData.typeName.equals(PreMachineInfo.B301D_ELE01)){
             machineInfoData.RS232_1 = PreMachineInfo.ttyS0;
             machineInfoData.RS232_2 = PreMachineInfo.ttyS1;
             if(machineInfoData.ISRS485) {
@@ -124,6 +130,10 @@ public class PlanTest {
             if(machineInfoData.typeName.equals(PreMachineInfo.B301_LVDS)){
                 machineInfoData.SCREEN = true;
                 machineInfoData.TOUCH_SCREEN = true;
+            }
+            if(machineInfoData.typeName.equals(PreMachineInfo.B301D_ELE01)){
+                machineInfoData.SCREEN = true;
+                machineInfoData.CAMERA_ONE = true;
             }
             machineInfoData.RTC = true;
         }
@@ -152,8 +162,9 @@ public class PlanTest {
             /*
             这里如果需要测试屏幕和触摸就把注释打开
              */
-            machineInfoData.SCREEN = true;
-            machineInfoData.TOUCH_SCREEN = true;
+//            machineInfoData.SCREEN = true;
+//            machineInfoData.TOUCH_SCREEN = true;
+
             machineInfoData.GPIONUM = 4;
             int[] gpio = new int[machineInfoData.GPIONUM];
             gpio[0] = 32 +26;//输入
@@ -173,6 +184,8 @@ public class PlanTest {
             vector.add(PreMachineInfo.SPEAK_TEST);
         if(machineInfoData.HEADPHONE)
             vector.add(PreMachineInfo.HEADPHONE_TEST);
+        if(machineInfoData.CAMERA_ONE)
+            vector.add(PreMachineInfo.CAMERA_ONE_TEST);
         if(machineInfoData.RECORD)
             vector.add(PreMachineInfo.RECORD_TEST);
         if(machineInfoData.wifiModule != null ) {
@@ -280,6 +293,7 @@ public class PlanTest {
         machineInfoData.RECORD = false;
         machineInfoData.SPEAK = false;
         machineInfoData.HEADPHONE = false;
+        machineInfoData.CAMERA_ONE = false;
         machineInfoData.TFCARD = false;
         machineInfoData.USB = false;
         machineInfoData.ISWIFI = false;

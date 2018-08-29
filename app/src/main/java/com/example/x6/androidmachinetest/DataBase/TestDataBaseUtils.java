@@ -177,6 +177,10 @@ public class TestDataBaseUtils {
                     jsonObject.put("HpPassTimes",cursor.getString(cursor.getColumnIndex("HpPassTimes")));
                     jsonObject.put("HpNotPassTimes",cursor.getString(cursor.getColumnIndex("HpNotPassTimes")));
                     jsonObject.put("HpEndResult",cursor.getString(cursor.getColumnIndex("HpEndResult")));
+                    jsonObject.put("CameraTestTimes",cursor.getString(cursor.getColumnIndex("CameraTestTimes")));
+                    jsonObject.put("CameraPassTimes",cursor.getString(cursor.getColumnIndex("CameraPassTimes")));
+                    jsonObject.put("CameraNotPassTimes",cursor.getString(cursor.getColumnIndex("CameraNotPassTimes")));
+                    jsonObject.put("CameraEndResult",cursor.getString(cursor.getColumnIndex("CameraEndResult")));
                     jsonObject.put("RecordTestTimes",cursor.getString(cursor.getColumnIndex("RecordTestTimes")));
                     jsonObject.put("RecordPassTimes",cursor.getString(cursor.getColumnIndex("RecordPassTimes")));
                     jsonObject.put("RecordNotPassTimes",cursor.getString(cursor.getColumnIndex("RecordNotPassTimes")));
@@ -260,25 +264,26 @@ public class TestDataBaseUtils {
         String[] Times = new String[]{};
         boolean result = true;
         Cursor cursor = dbr.rawQuery("select * from "+TestDataBaseInfo.tableName+" where ID=1",Times);
-        int[] endResults = new int[16];
+        int[] endResults = new int[17];
         int i = 0;
         if(cursor.moveToFirst()){
                 endResults[0] = cursor.getInt(cursor.getColumnIndex("SpkEndResult"));
                 endResults[1] = cursor.getInt(cursor.getColumnIndex("HpEndResult"));
-                endResults[2] = cursor.getInt(cursor.getColumnIndex("RecordEndResult"));
-                endResults[3] = cursor.getInt(cursor.getColumnIndex("TFEndResult"));
-                endResults[4] = cursor.getInt(cursor.getColumnIndex("USBEndResult"));
-                endResults[5] = cursor.getInt(cursor.getColumnIndex("WifiEndResult"));
-                endResults[6] = cursor.getInt(cursor.getColumnIndex("MobileNetEndResult"));
-                endResults[7] = cursor.getInt(cursor.getColumnIndex("GPSEndResult"));
-                endResults[8] = cursor.getInt(cursor.getColumnIndex("BTEndResult"));
-                endResults[9] = cursor.getInt(cursor.getColumnIndex("ScreenEndResult"));
-                endResults[10] = cursor.getInt(cursor.getColumnIndex("TSEndResult"));
-                endResults[11] = cursor.getInt(cursor.getColumnIndex("RS232EndResult"));
-                endResults[12] = cursor.getInt(cursor.getColumnIndex("RS485EndResult"));
-                endResults[13] = cursor.getInt(cursor.getColumnIndex("GPIOEndResult"));
-                endResults[14] = cursor.getInt(cursor.getColumnIndex("SpkEndResult"));
-                endResults[15] = cursor.getInt(cursor.getColumnIndex("RTCEndResult"));
+                endResults[2] = cursor.getInt(cursor.getColumnIndex("CameraEndResult"));
+                endResults[3] = cursor.getInt(cursor.getColumnIndex("RecordEndResult"));
+                endResults[4] = cursor.getInt(cursor.getColumnIndex("TFEndResult"));
+                endResults[5] = cursor.getInt(cursor.getColumnIndex("USBEndResult"));
+                endResults[6] = cursor.getInt(cursor.getColumnIndex("WifiEndResult"));
+                endResults[7] = cursor.getInt(cursor.getColumnIndex("MobileNetEndResult"));
+                endResults[8] = cursor.getInt(cursor.getColumnIndex("GPSEndResult"));
+                endResults[9] = cursor.getInt(cursor.getColumnIndex("BTEndResult"));
+                endResults[10] = cursor.getInt(cursor.getColumnIndex("ScreenEndResult"));
+                endResults[11] = cursor.getInt(cursor.getColumnIndex("TSEndResult"));
+                endResults[12] = cursor.getInt(cursor.getColumnIndex("RS232EndResult"));
+                endResults[13] = cursor.getInt(cursor.getColumnIndex("RS485EndResult"));
+                endResults[14] = cursor.getInt(cursor.getColumnIndex("GPIOEndResult"));
+                endResults[15] = cursor.getInt(cursor.getColumnIndex("SpkEndResult"));
+                endResults[16] = cursor.getInt(cursor.getColumnIndex("RTCEndResult"));
         }
         for(int j : endResults){
             debug.loge(String.valueOf(j));
@@ -354,7 +359,9 @@ public class TestDataBaseUtils {
             PassTimesValue += 1;
             TestTimesValue += 1;
         }else if(ISPass == -1){
-
+            PassTimesValue = 0;
+            TestTimesValue = 0;
+            NotPassTimesValue = 0;
         }else{
             return false;
         }
@@ -376,6 +383,7 @@ public class TestDataBaseUtils {
     public void updateHp(int isPass){
         updateAddTestData("Hp",isPass);
     }
+    public void updateCamera(int isPass){updateAddTestData("Camera",isPass);}
     public void updateRecord(int isPass){
         updateAddTestData("Record",isPass);
     }

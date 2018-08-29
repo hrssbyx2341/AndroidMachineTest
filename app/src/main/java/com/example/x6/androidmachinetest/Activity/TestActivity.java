@@ -16,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.x6.androidmachinetest.Activity.UI.BlueTooth;
+import com.example.x6.androidmachinetest.Activity.UI.CameraOne;
 import com.example.x6.androidmachinetest.Activity.UI.Eth;
+import com.example.x6.androidmachinetest.Activity.UI.EthR;
 import com.example.x6.androidmachinetest.Activity.UI.GPIO;
 import com.example.x6.androidmachinetest.Activity.UI.GPS;
 import com.example.x6.androidmachinetest.Activity.UI.Headhhone;
@@ -62,8 +64,9 @@ public class TestActivity extends Activity {
     /* 所有测试项目 */
     private Speak speakTest = null;
     private Headhhone headhhoneTest = null;
+    private CameraOne cameraOne = null;
     private Record recordTest = null;
-    private Eth ethTest = null;
+    private EthR ethTest = null;
     private Wifi wifiTest = null;
     private BlueTooth blueToothTest = null;
     private Serial232Control serial232Test = null;
@@ -85,6 +88,7 @@ public class TestActivity extends Activity {
         int temp = currentPosition - 1;
         String Pass = "测试通过";
         String NotPass = "测试不通过";
+        String NotSupport = "设备不支持";
         TestDataBaseUtils testDataBaseUtils = TestDataBaseUtils.getTestDataBaseUtils(TestActivity.this.getApplicationContext());
         if(speakTest!=null){
             if(temp == speakTest.getPosition()){
@@ -93,6 +97,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateSpk(1);
                 }else if(result.speakTestResult.equals(NotPass)){
                     testDataBaseUtils.updateSpk(0);
+                }else if(result.speakTestResult.equals(NotSupport)){
+                    testDataBaseUtils.updateSpk(-1);
                 }
             }
         }
@@ -103,6 +109,20 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateHp(1);
                 }else if(result.headPhoneTestResult.equals(NotPass)){
                     testDataBaseUtils.updateHp(0);
+                }else if(result.headPhoneTestResult.equals(NotSupport)){
+                    testDataBaseUtils.updateHp(-1);
+                }
+            }
+        }
+        if(cameraOne != null){
+            if(temp == cameraOne.getPosition()){
+                debug.loge("CameraOne");
+                if(result.CameraTestResult.equals(Pass)){
+                    testDataBaseUtils.updateCamera(1);
+                }else if(result.CameraTestResult.equals(NotPass)){
+                    testDataBaseUtils.updateCamera(0);
+                }else if(result.CameraTestResult.equals(NotSupport)){
+                    testDataBaseUtils.updateCamera(-1);
                 }
             }
         }
@@ -113,6 +133,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateRecord(1);
                 }else if(result.recordTest.equals(NotPass)){
                     testDataBaseUtils.updateRecord(0);
+                }else if(result.recordTest.equals(NotSupport)){
+                    testDataBaseUtils.updateRecord(-1);
                 }
             }
         }
@@ -123,6 +145,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateEth(1);
                 }else if(result.ethTest.equals(NotPass)){
                     testDataBaseUtils.updateEth(0);
+                }else if(result.ethTest.equals(NotSupport)){
+                    testDataBaseUtils.updateEth(-1);
                 }
             }
         }
@@ -133,6 +157,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateWifi(1);
                 }else if(result.wifiTest.equals(NotPass)){
                     testDataBaseUtils.updateWifi(0);
+                }else if(result.wifiTest.equals(NotSupport)){
+                    testDataBaseUtils.updateWifi(-1);
                 }
             }
         }
@@ -143,6 +169,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateBT(1);
                 }else if(result.blueToothTest.equals(NotPass)){
                     testDataBaseUtils.updateBT(0);
+                }else if(result.blueToothTest.equals(NotSupport)){
+                    testDataBaseUtils.updateBT(-1);
                 }
             }
         }
@@ -153,6 +181,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateRS232(1);
                 }else if(result.RS232Test.equals(NotPass)){
                     testDataBaseUtils.updateRS232(0);
+                }else if(result.RS232Test.equals(NotSupport)){
+                    testDataBaseUtils.updateRS232(-1);
                 }
             }
         }
@@ -163,6 +193,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateRS485(1);
                 }else if(result.RS485Test.equals(NotPass)){
                     testDataBaseUtils.updateRS485(0);
+                }else if(result.RS485Test.equals(NotSupport)){
+                    testDataBaseUtils.updateRS485(-1);
                 }
             }
         }
@@ -173,6 +205,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateRS485(1);
                 }else if(result.RS485Test.equals(NotPass)){
                     testDataBaseUtils.updateRS485(0);
+                }else if(result.RS485Test.equals(NotSupport)){
+                    testDataBaseUtils.updateRS485(-1);
                 }
             }
         }
@@ -183,6 +217,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateUSB(1);
                 }else if(result.USBTest.equals(NotPass)){
                     testDataBaseUtils.updateUSB(0);
+                }else if(result.USBTest.equals(NotSupport)){
+                    testDataBaseUtils.updateUSB(-1);
                 }
             }
         }
@@ -193,6 +229,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateGPIO(1);
                 }else if(result.GpioTest.equals(NotPass)){
                     testDataBaseUtils.updateGPIO(0);
+                }else if(result.GpioTest.equals(NotSupport)){
+                    testDataBaseUtils.updateGPIO(-1);
                 }
             }
         }
@@ -203,6 +241,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateScreen(1);
                 }else if(result.ScreenTest.equals(NotPass)){
                     testDataBaseUtils.updateScreen(0);
+                }else if(result.ScreenTest.equals(NotSupport)){
+                    testDataBaseUtils.updateScreen(-1);
                 }
             }
         }
@@ -213,6 +253,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateTS(1);
                 }else if(result.TouchScreenTest.equals(NotPass)){
                     testDataBaseUtils.updateTS(0);
+                }else if(result.TouchScreenTest.equals(NotSupport)){
+                    testDataBaseUtils.updateTS(-1);
                 }
             }
         }
@@ -223,6 +265,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateMobileNet(1);
                 }else if(result.mobileNetTest.equals(NotPass)){
                     testDataBaseUtils.updateMobileNet(0);
+                }else if(result.mobileNetTest.equals(NotSupport)){
+                    testDataBaseUtils.updateMobileNet(-1);
                 }
             }
         }
@@ -233,6 +277,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateTF(1);
                 }else if(result.TFCARDTest.equals(NotPass)){
                     testDataBaseUtils.updateTF(0);
+                }else if(result.TFCARDTest.equals(NotSupport)){
+                    testDataBaseUtils.updateTF(-1);
                 }
             }
         }
@@ -243,6 +289,8 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateGPS(1);
                 }else if(result.gpsTest.equals(NotPass)){
                     testDataBaseUtils.updateGPS(0);
+                }else if(result.gpsTest.equals(NotSupport)){
+                    testDataBaseUtils.updateGPS(-1);
                 }
             }
         }
@@ -264,13 +312,19 @@ public class TestActivity extends Activity {
                     bundle = msg.getData();
                     pos = bundle.getInt("pos");
                     testProject[pos].setTextColor(Color.GREEN);
-                    setResult(true);
+                    setTestResult(1);
                     break;
                 case -3:
                     bundle = msg.getData();
                     pos = bundle.getInt("pos");
                     testProject[pos].setTextColor(Color.RED);
-                    setResult(false);
+                    setTestResult(0);
+                    break;
+                case -1:
+                    bundle = msg.getData();
+                    pos = bundle.getInt("pos");
+                    testProject[pos].setTextColor(Color.argb(0,0xf1,0x9e,0x9e));
+                    setTestResult(-1);
                     break;
             }
         }
@@ -281,158 +335,291 @@ public class TestActivity extends Activity {
 
 
 
-    public static void syncResultList(Handler handler,int i,boolean isPass){
+    public static void syncResultList(Handler handler,int i,int isPass){
         Bundle bundle = new Bundle();
         Message message = new Message();
         bundle.putInt("pos",i);
-        if(isPass)
-            message.what = 3;
-        else
-            message.what = -3;
+        switch (isPass){
+            case 1:
+                message.what = 3;
+                break;
+            case -1:
+                message.what = -1;
+                break;
+            case 0:
+                message.what = -3;
+                break;
+        }
         message.setData(bundle);
         handler.sendMessage(message);
     }
-    private void setResult(boolean isPass){
+    private void setTestResult(int isPass){
         if(speakTest != null){
             if(currentPosition == speakTest.getPosition()) {
-                if (isPass)
-                    result.speakTestResult = "测试通过";
-                else
-                    result.speakTestResult = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.speakTestResult = "测试通过";
+                        break;
+                    case 0:
+                        result.speakTestResult = "测试不通过";
+                        break;
+                    case -1:
+                        result.speakTestResult = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(headhhoneTest != null){
             if(currentPosition == headhhoneTest.getPosition()){
-                if(isPass)
-                    result.headPhoneTestResult = "测试通过";
-                else
-                    result.headPhoneTestResult = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.headPhoneTestResult = "测试通过";
+                        break;
+                    case 0:
+                        result.headPhoneTestResult = "测试不通过";
+                        break;
+                    case -1:
+                        result.headPhoneTestResult = "设备不支持";
+                        break;
+                }
+            }
+        }
+
+        if(cameraOne != null){
+            if(currentPosition == cameraOne.getPosition()){
+                switch (isPass){
+                    case 1:
+                        result.CameraTestResult = "测试通过";
+                        break;
+                    case 0:
+                        result.CameraTestResult = "测试不通过";
+                        break;
+                    case -1:
+                        result.CameraTestResult = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(recordTest != null){
-            if(currentPosition == recordTest.getPosition()){
-                if(isPass)
+            switch (isPass){
+                case 1:
                     result.recordTest = "测试通过";
-                else
+                    break;
+                case 0:
                     result.recordTest = "测试不通过";
+                    break;
+                case -1:
+                    result.recordTest = "设备不支持";
+                    break;
             }
         }
 
         if(ethTest != null){
             if(currentPosition == ethTest.getPosition()){
-                if(isPass)
-                    result.ethTest = "测试通过";
-                else
-                    result.ethTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.ethTest = "测试通过";
+                        break;
+                    case 0:
+                        result.ethTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.ethTest = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(wifiTest != null){
             if(currentPosition == wifiTest.getPosition()){
-                if(isPass)
-                    result.wifiTest = "测试通过";
-                else
-                    result.wifiTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.wifiTest = "测试通过";
+                        break;
+                    case 0:
+                        result.wifiTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.wifiTest = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(blueToothTest != null){
             if(currentPosition == blueToothTest.getPosition()){
-                if(isPass)
-                    result.blueToothTest = "测试通过";
-                else
-                    result.blueToothTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.blueToothTest = "测试通过";
+                        break;
+                    case 0:
+                        result.blueToothTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.blueToothTest = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(serial232Test != null){
             if(currentPosition == serial232Test.getPosition()){
-                if(isPass)
-                    result.RS232Test = "测试通过";
-                else
-                    result.RS232Test = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.RS232Test = "测试通过";
+                        break;
+                    case 0:
+                        result.RS232Test = "测试不通过";
+                        break;
+                    case -1:
+                        result.RS232Test = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(serial485Odd != null){
             if(currentPosition == serial485Odd.getPosition()){
-                if(isPass)
-                    result.RS485Test = "测试通过";
-                else
-                    result.RS485Test = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.RS485Test = "测试通过";
+                        break;
+                    case 0:
+                        result.RS485Test = "测试不通过";
+                        break;
+                    case -1:
+                        result.RS485Test = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(serial485Even != null){
             if(currentPosition == serial485Even.getPosition()){
-                if(isPass)
-                    result.RS485Test = "测试通过";
-                else
-                    result.RS485Test = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.RS485Test = "测试通过";
+                        break;
+                    case 0:
+                        result.RS485Test = "测试不通过";
+                        break;
+                    case -1:
+                        result.RS485Test = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(usbTest != null){
             if(currentPosition == usbTest.getPosition()){
-                if(isPass)
-                    result.USBTest = "测试通过";
-                else
-                    result.USBTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.USBTest = "测试通过";
+                        break;
+                    case 0:
+                        result.USBTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.USBTest = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(tfcardTest != null){
             if(currentPosition == tfcardTest.getPosition()){
-                if(isPass)
-                    result.TFCARDTest = "测试通过";
-                else
-                    result.TFCARDTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.TFCARDTest = "测试通过";
+                        break;
+                    case 0:
+                        result.TFCARDTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.TFCARDTest = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(gpioTest != null){
             if(currentPosition == gpioTest.getPosition()){
-                if(isPass)
-                    result.GpioTest = "测试通过";
-                else
-                    result.GpioTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.GpioTest = "测试通过";
+                        break;
+                    case 0:
+                        result.GpioTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.GpioTest = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(screenTets != null){
             if(currentPosition == screenTets.getPosition()){
-                if(isPass)
-                    result.ScreenTest = "测试通过";
-                else
-                    result.ScreenTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.ScreenTest = "测试通过";
+                        break;
+                    case 0:
+                        result.ScreenTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.ScreenTest = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(touchTest != null){
             if(currentPosition == touchTest.getPosition()){
-                if(isPass)
-                    result.TouchScreenTest = "测试通过";
-                else
-                    result.TouchScreenTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.TouchScreenTest = "测试通过";
+                        break;
+                    case 0:
+                        result.TouchScreenTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.TouchScreenTest = "设备不支持";
+                        break;
+                }
             }
         }
 
         if(mobileNet != null){
             if(currentPosition == mobileNet.getPosition()){
-                if(isPass)
-                    result.mobileNetTest = "测试通过";
-                else
-                    result.mobileNetTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.mobileNetTest = "测试通过";
+                        break;
+                    case 0:
+                        result.mobileNetTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.mobileNetTest = "设备不支持";
+                        break;
+                }
             }
         }
         if(gpsTest != null){
             if(currentPosition == gpsTest.getPosition()){
-                if(isPass)
-                    result.gpsTest = "测试通过";
-                else
-                    result.gpsTest = "测试不通过";
+                switch (isPass){
+                    case 1:
+                        result.gpsTest = "测试通过";
+                        break;
+                    case 0:
+                        result.gpsTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.gpsTest = "设备不支持";
+                        break;
+                }
             }
         }
 
@@ -515,6 +702,13 @@ public class TestActivity extends Activity {
                 debug.logd("添加耳机布局");
             }
         }
+        if(cameraOne != null){
+            if(cameraOne.getPosition() == nextTestNum){
+                linearLayout.addView(cameraOne.getLineout());
+                cameraOne.startTest(this,handler);
+                debug.logd("添加摄像头布局");
+            }
+        }
         if(recordTest != null){
             if(recordTest.getPosition() == nextTestNum){
                 linearLayout.addView(recordTest.getLineout());
@@ -524,7 +718,7 @@ public class TestActivity extends Activity {
         }
         if(ethTest != null){
             if(ethTest.getPosition() == nextTestNum){
-                linearLayout.addView(ethTest.getScrollView());
+                linearLayout.addView(ethTest.getLineout());
                 ethTest.startTest(this,handler);
                 debug.logd("添加以太网测试布局");
             }
@@ -640,6 +834,13 @@ public class TestActivity extends Activity {
                 debug.logd("移除耳机布局");
             }
         }
+        if(cameraOne != null){
+            if(cameraOne.getPosition() == currentTest){
+                cameraOne.finish();
+                linearLayout.removeView(cameraOne.getLineout());
+                debug.logd("移除相机布局");
+            }
+        }
         if(recordTest != null){
             if(recordTest.getPosition() == currentTest){
                 recordTest.finish();
@@ -650,7 +851,7 @@ public class TestActivity extends Activity {
         if(ethTest != null){
             if(ethTest.getPosition() == currentTest){
                 ethTest.finish();
-                linearLayout.removeView(ethTest.getScrollView());
+                linearLayout.removeView(ethTest.getLineout());
                 debug.logd("移除以太网测试布局");
             }
         }
@@ -757,8 +958,11 @@ public class TestActivity extends Activity {
                 speakTest = new Speak(context,"外放测试是否通过",handler);
                 speakTest.setPosition(i);
             } else if (string.equals(PreMachineInfo.HEADPHONE_TEST)) {
-                headhhoneTest = new Headhhone(context,"耳机输出测试是否通过",handler);
+                headhhoneTest = new Headhhone(context, "耳机输出测试是否通过", handler);
                 headhhoneTest.setPosition(i);
+            }else if(string.equals(PreMachineInfo.CAMERA_ONE_TEST)){
+                cameraOne = new CameraOne(context,"摄像头测试",handler);
+                cameraOne.setPosition(i);
             } else if (string.equals(PreMachineInfo.RECORD_TEST)) {
                 recordTest = new Record(context,"录音测试是否通过",handler);
                 recordTest.setPosition(i);
@@ -779,7 +983,7 @@ public class TestActivity extends Activity {
                     string.equals(PreMachineInfo.ETH_RK3288_1_TEST) ||
                     string.equals(PreMachineInfo.ETH_RK3288_2_TEST) ||
                     string.equals(PreMachineInfo.ETH_RK3368_TEST)) {
-                ethTest = new Eth(context,string,handler);
+                ethTest = new EthR(context,string,handler);
                 ethTest.setPosition(i);
             }  else if (string.equals(PreMachineInfo.RS232_2_TEST) ||
                     string.equals(PreMachineInfo.RS232_3_TEST) ||
@@ -885,6 +1089,11 @@ public class TestActivity extends Activity {
         if( headhhoneTest != null) {
             if(currentPosition == headhhoneTest.getPosition())
                 headhhoneTest.finish();
+        }
+        if(cameraOne != null){
+            if(currentPosition == cameraOne.getPosition()){
+                cameraOne.finish();
+            }
         }
         if(ethTest != null) {
             if(currentPosition == ethTest.getPosition())

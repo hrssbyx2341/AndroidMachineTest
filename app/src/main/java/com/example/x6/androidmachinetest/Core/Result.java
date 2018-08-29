@@ -2,6 +2,7 @@ package com.example.x6.androidmachinetest.Core;
 
 import android.os.Environment;
 
+import com.example.x6.androidmachinetest.Activity.UI.CameraOne;
 import com.example.x6.androidmachinetest.function.Debug;
 import com.example.x6.androidmachinetest.function.ExcelUtils;
 import com.example.x6.androidmachinetest.function.SuCommand;
@@ -79,6 +80,9 @@ public class Result {
         if(headPhoneTestResult != null)
             if(!excelUtils.writeToExcel(filePath,"耳机接口",headPhoneTestResult))
                 isOk = false;
+        if(CameraTestResult != null)
+            if(!excelUtils.writeToExcel(filePath,"摄像头功能",CameraTestResult))
+                isOk = false;
         if(recordTest != null)
            if(!excelUtils.writeToExcel(filePath,"录音功能",recordTest))
                isOk = false;
@@ -132,6 +136,7 @@ public class Result {
 
     public String speakTestResult = null;
     public String headPhoneTestResult = null;
+    public String CameraTestResult = null;
     public String recordTest = null;
     public String wifiTest = null;
     public String blueToothTest = null;
@@ -164,6 +169,8 @@ public class Result {
             result+="外放测试："+speakTestResult+"\n";
         if(headPhoneTestResult != null)
             result+="耳机测试："+headPhoneTestResult+"\n";
+        if(CameraTestResult != null)
+            result+="相机测试："+CameraTestResult+"\n";
         if(recordTest != null)
             result+="录音测试："+recordTest+"\n";
         if(wifiTest != null)
@@ -205,6 +212,7 @@ public class Result {
     public void finish(){
         speakTestResult = null;
         headPhoneTestResult = null;
+        CameraTestResult = null;
         recordTest = null;
         wifiTest = null;
         blueToothTest = null;

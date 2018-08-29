@@ -44,6 +44,7 @@ public class GPS extends Common {
         gpsLocationShow = new TextView(context);
         notSupport.setText("不支持");
         gpsLocationShow.setText("正在定位(请耐心等待)...");
+        setLocationMode(context, Settings.Secure.LOCATION_MODE_HIGH_ACCURACY);
 
         LinearLayout.LayoutParams notSupportLayout = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         notSupport.setLayoutParams(notSupportLayout);
@@ -65,7 +66,7 @@ public class GPS extends Common {
                 getNo().setTextColor(Color.WHITE);
                 notSupport.setTextColor(Color.WHITE);
                 handler.sendEmptyMessage(0);
-                TestActivity.syncResultList(handler, getPosition(), true);
+                TestActivity.syncResultList(handler, getPosition(), 1);
             }
         });
         getNo().setOnClickListener(new View.OnClickListener() {
@@ -77,7 +78,7 @@ public class GPS extends Common {
                 getYes().setTextColor(Color.WHITE);
                 notSupport.setTextColor(Color.WHITE);
                 handler.sendEmptyMessage(0);
-                TestActivity.syncResultList(handler, getPosition(), false);
+                TestActivity.syncResultList(handler, getPosition(), 0);
             }
         });
         getReTest().setOnClickListener(new View.OnClickListener() {
@@ -103,7 +104,7 @@ public class GPS extends Common {
                 getNo().setTextColor(Color.WHITE);
                 getYes().setTextColor(Color.WHITE);
                 handler.sendEmptyMessage(0);
-                TestActivity.syncResultList(handler, getPosition(), true);
+                TestActivity.syncResultList(handler, getPosition(), -1);
             }
         });
 
@@ -127,13 +128,8 @@ public class GPS extends Common {
         } else {
             debug.loge("请检查网络或者GPS是否打开");
             gpsLocationShow.setText("当前GPS定位没有打开,正在打开GPS功能");
-            setLocationMode(context, Settings.Secure.LOCATION_MODE_HIGH_ACCURACY);
+//            setLocationMode(context, Settings.Secure.LOCATION_MODE_HIGH_ACCURACY);
 
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             gpsLocationShow.setText("正在定位(请耐心等待)...");
         }
 

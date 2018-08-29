@@ -49,7 +49,7 @@ public class BlueTooth extends AutoCommon {
                 }
                 while (!mBluetoothAdapter.isEnabled()){
                     if(System.currentTimeMillis() - startTime > 5*1000){
-                        TestActivity.syncResultList(handler,getPosition(),false); //蓝牙打开超时
+                        TestActivity.syncResultList(handler,getPosition(),0); //蓝牙打开超时
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -68,7 +68,7 @@ public class BlueTooth extends AutoCommon {
                     }
                 }
                 if(mBluetoothAdapter.isEnabled()){
-                    TestActivity.syncResultList(handler,getPosition(),true);
+                    TestActivity.syncResultList(handler,getPosition(),1);
                     handler.post(new Runnable() {
                         @Override
                         public void run() {

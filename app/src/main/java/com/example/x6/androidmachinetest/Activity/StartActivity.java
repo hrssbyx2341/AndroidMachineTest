@@ -145,10 +145,11 @@ public class StartActivity extends Activity {
             strings[5] = PreMachineInfo.K10;
             setTypeView(typeNum,strings);
         }else if (getMachineInfo.getCupName().equals(PreMachineInfo.H3)){
-            typeNum = 2;
+            typeNum = 3;
             String[] strings = new String[typeNum];
             strings[0] = PreMachineInfo.B301;
             strings[1] = PreMachineInfo.B301_LVDS;
+            strings[2] = PreMachineInfo.B301D_ELE01;
             setTypeView(typeNum,strings);
         }else if(getMachineInfo.getCupName().equals(PreMachineInfo.RK3288)){
             typeNum = 2;
@@ -173,7 +174,8 @@ public class StartActivity extends Activity {
                     if(machineInfoData.typeName.equals(PreMachineInfo.Y5)
                             ||machineInfoData.typeName.equals(PreMachineInfo.Y7)
                             ||machineInfoData.typeName.equals(PreMachineInfo.Y8)
-                            ||machineInfoData.typeName.equals(PreMachineInfo.Y10)){
+                            ||machineInfoData.typeName.equals(PreMachineInfo.Y10)
+                            ||machineInfoData.typeName.equals(PreMachineInfo.B301D_ELE01)){
                         machineInfoData.ISRS485 = true;
 
                         /*

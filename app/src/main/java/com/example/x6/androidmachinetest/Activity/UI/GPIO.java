@@ -74,7 +74,7 @@ public class GPIO extends AutoCommon{
         }else{
             getTextView().setText("当前没有找到GPIO， GPIO测试失败");
             handler.sendEmptyMessage(0);
-            TestActivity.syncResultList(handler,getPosition(),false);
+            TestActivity.syncResultList(handler,getPosition(),0);
             return false;
         }
     }
@@ -126,7 +126,11 @@ public class GPIO extends AutoCommon{
         }
 
         handler.sendEmptyMessage(0);
-        TestActivity.syncResultList(handler,getPosition(),isOk);
+        if(isOk){
+            TestActivity.syncResultList(handler,getPosition(),1);
+        }else{
+            TestActivity.syncResultList(handler,getPosition(),0);
+        }
         getReTest().setEnabled(true);
     }
 
