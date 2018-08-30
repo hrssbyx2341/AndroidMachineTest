@@ -72,10 +72,10 @@ public class StartActivity extends Activity {
         if(string.equals("null"))
             isOk = false;
         AfterShutDownData.getAfterShutDownData().setMachineType(string);
-        string = sharedPreferences.getString("TempReporterPath","null");
-        if(string.equals("null"))
-            isOk = false;
-        AfterShutDownData.getAfterShutDownData().setTempReporterFilePath(string);
+//        string = sharedPreferences.getString("TempReporterPath","null");
+//        if(string.equals("null"))
+//            isOk = false;
+//        AfterShutDownData.getAfterShutDownData().setTempReporterFilePath(string);
         tempTime = sharedPreferences.getLong("TimeBeforeShutDown",-1);
         if(tempTime == -1)
             isOk = false;

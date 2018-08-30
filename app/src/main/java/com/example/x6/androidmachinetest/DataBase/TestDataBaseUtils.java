@@ -107,7 +107,7 @@ public class TestDataBaseUtils {
     /**************************************************************/
     /*                    上传测试结果到服务器                    */
     /**************************************************************/
-    public boolean upLoad(){
+    public int upLoad(){
         URL url;
         try {
             url = new URL(PreData.ServiceAddress);
@@ -127,15 +127,20 @@ public class TestDataBaseUtils {
                 InputStream inputStream = connection.getInputStream();
                 String res = readBytes(inputStream);
                 debug.loge(res);
+                if(res.equals("false")){
+                    return -2;
+                }else if(res.equals("true")){
+                    return 0;
+                }
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
-        return true;
+        return 0;
     }
 
     private String readBytes(InputStream inputStream) throws IOException {

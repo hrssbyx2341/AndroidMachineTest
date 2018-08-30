@@ -160,7 +160,8 @@ public class RTC extends AutoCommon{
     private void saveAllTestResult(){
         notSetTime.setEnabled(false);
         setTime.setEnabled(false);
-        new ExcelUtils().createExcel(new File(result.getTestReporterPtah()+reporterFile)); //先创建表格
+        /*删除Excel表格的生成*/
+        //new ExcelUtils().createExcel(new File(result.getTestReporterPtah()+reporterFile)); //先创建表格
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -175,45 +176,72 @@ public class RTC extends AutoCommon{
                 关闭所有网络
                  */
                 new WifiControl(context).WifiClose();
-                new EthControl().ethClose();
                 new MobileNetControl().disableData(); //关闭移动网络
 
-                if(result.saveResult(result.getTestReporterPtah()+reporterFile)){
-                    debug.logd("生成临时测试报告成功");
-                    if(saveDataBeforeShutDown()) {
-                        debug.logd("生成掉点前文件成功");
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressDialog.dismiss();
-                                Toast.makeText(context, "生成临时测试文件成功", Toast.LENGTH_LONG).show();
-                                show.setText("请断电重新启动设备并启动本程序" + "\n当前时间" + getCurrentTime());
-                                show.setTextColor(Color.BLUE);
-                            }
-                        });
-                    }else{
-                        debug.loge("生成掉电前文件失败");
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressDialog.dismiss();
-                                Toast.makeText(context,"生成临时测试文件失败",Toast.LENGTH_LONG).show();
-                                show.setText("生成临时测试文件失败，请重新生成"+"\n当前时间"+getCurrentTime());
-                                show.setTextColor(Color.RED);
-                                notSetTime.setEnabled(true);
-                                setTime.setEnabled(true);
-                            }
-                        });
-                    }
+                debug.logd("生成临时测试报告成功");
+                if(saveDataBeforeShutDown()) {
+                    debug.logd("生成掉电前文件成功");
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            Toast.makeText(context, "生成临时测试文件成功", Toast.LENGTH_LONG).show();
+                            show.setText("请\"拔掉以太网线\"断电重新启动设备并启动本程序" + "\n当前时间" + getCurrentTime());
+                            show.setTextColor(Color.BLUE);
+                        }
+                    });
                 }else{
-                    debug.loge("生成临时文件失败");
-                    progressDialog.dismiss();
-                    Toast.makeText(context,"生成临时测试文件失败",Toast.LENGTH_LONG).show();
-                    show.setText("生成临时测试文件失败，请重新生成"+"\n当前时间"+getCurrentTime());
-                    show.setTextColor(Color.RED);
-                    notSetTime.setEnabled(true);
-                    setTime.setEnabled(true);
+                    debug.loge("生成掉电前文件失败");
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.dismiss();
+                            Toast.makeText(context,"生成临时测试文件失败",Toast.LENGTH_LONG).show();
+                            show.setText("生成临时测试文件失败，请重新生成"+"\n当前时间"+getCurrentTime());
+                            show.setTextColor(Color.RED);
+                            notSetTime.setEnabled(true);
+                            setTime.setEnabled(true);
+                        }
+                    });
                 }
+
+                /*删除生成Excel表格*/
+//                if(result.saveResult(result.getTestReporterPtah()+reporterFile)){
+//                    debug.logd("生成临时测试报告成功");
+//                    if(saveDataBeforeShutDown()) {
+//                        debug.logd("生成掉电前文件成功");
+//                        handler.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                progressDialog.dismiss();
+//                                Toast.makeText(context, "生成临时测试文件成功", Toast.LENGTH_LONG).show();
+//                                show.setText("请断电重新启动设备并启动本程序" + "\n当前时间" + getCurrentTime());
+//                                show.setTextColor(Color.BLUE);
+//                            }
+//                        });
+//                    }else{
+//                        debug.loge("生成掉电前文件失败");
+//                        handler.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                progressDialog.dismiss();
+//                                Toast.makeText(context,"生成临时测试文件失败",Toast.LENGTH_LONG).show();
+//                                show.setText("生成临时测试文件失败，请重新生成"+"\n当前时间"+getCurrentTime());
+//                                show.setTextColor(Color.RED);
+//                                notSetTime.setEnabled(true);
+//                                setTime.setEnabled(true);
+//                            }
+//                        });
+//                    }
+//                }else{
+//                    debug.loge("生成临时文件失败");
+//                    progressDialog.dismiss();
+//                    Toast.makeText(context,"生成临时测试文件失败",Toast.LENGTH_LONG).show();
+//                    show.setText("生成临时测试文件失败，请重新生成"+"\n当前时间"+getCurrentTime());
+//                    show.setTextColor(Color.RED);
+//                    notSetTime.setEnabled(true);
+//                    setTime.setEnabled(true);
+//                }
             }
         }).start();
     }
@@ -233,14 +261,14 @@ public class RTC extends AutoCommon{
         editor.putLong("TimeBeforeShutDown",System.currentTimeMillis());
         //这里是确认时间正确后的时间，在这里插入测试时间的数据库写入。
         TestDataBaseUtils.getTestDataBaseUtils(context).updateTestDateTime(System.currentTimeMillis());
-        editor.putString("TempReporterPath",result.getTestReporterPtah()+reporterFile);
+//        editor.putString("TempReporterPath",result.getTestReporterPtah()+reporterFile);
         editor.commit();
         if(!sharedPreferences.getString("CpuName","null").equals(MachineInfoData.getMachineInfoData().cpuName))
             isok = false;
         if(!sharedPreferences.getString("MachineType","null").equals(MachineInfoData.getMachineInfoData().typeName))
             isok = false;
-        if(!sharedPreferences.getString("TempReporterPath","null").equals(result.getTestReporterPtah()+reporterFile))
-            isok = false;
+//        if(!sharedPreferences.getString("TempReporterPath","null").equals(result.getTestReporterPtah()+reporterFile))
+//            isok = false;
         return isok;
     }
 

@@ -719,7 +719,7 @@ public class TestActivity extends Activity {
         if(ethTest != null){
             if(ethTest.getPosition() == nextTestNum){
                 linearLayout.addView(ethTest.getLineout());
-                ethTest.startTest(this,handler);
+                ethTest.startTest(this);
                 debug.logd("添加以太网测试布局");
             }
         }

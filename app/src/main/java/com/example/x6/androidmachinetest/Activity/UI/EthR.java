@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.example.x6.androidmachinetest.Activity.TestActivity;
 import com.example.x6.androidmachinetest.function.Debug;
+import com.example.x6.androidmachinetest.function.MobileNetControl;
+import com.example.x6.androidmachinetest.function.WifiControl;
 
 import java.io.File;
 
@@ -65,6 +67,11 @@ public class EthR extends Common {
     @Override
     public void startTest(Context context) {
         super.startTest(context);
+         /*
+        关闭其他网络
+         */
+        new WifiControl(context).WifiClose();
+        new MobileNetControl().disableData(); //关闭移动网络
         //以太网默认不打开设置,点击重测进入设置界面
 //        OpenEthSetting(context);
     }
