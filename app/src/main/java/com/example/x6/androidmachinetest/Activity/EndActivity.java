@@ -1,6 +1,7 @@
 package com.example.x6.androidmachinetest.Activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -37,6 +38,7 @@ public class EndActivity extends Activity {
     private Debug debug;
     private Button appendReporter,reStroe;
     private TextView display;
+    private ProgressDialog progressDialog;
     private boolean isRtcPass = true;
     private SuCommand suCommand;
     private Handler handler = new Handler();
@@ -45,6 +47,10 @@ public class EndActivity extends Activity {
         super.onCreate(savedInstanceState);
         debug = new Debug("EndActivity");
         suCommand = new SuCommand();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("提示：");
+        progressDialog.setMessage("正在上传测试报告...");
+        progressDialog.setCanceledOnTouchOutside(false);
         afterShutDownData = AfterShutDownData.getAfterShutDownData();
         setContentView(R.layout.activity_end);
         appendReporter = (Button) findViewById(R.id.appendResult);
@@ -61,16 +67,18 @@ public class EndActivity extends Activity {
             +"时间超过\"一小时\"RTC测试不通过");
             display.setTextColor(Color.RED);
             isRtcPass = false;
-            //这里写入RTC测试结果数据库
+            //这里写入RTC测试结果数据库 并且统计整机测试是否通过
             TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).updateRTC(0);
+            TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).updateISPass();
         }else{
             display.setText("当前时间："+formatTime(currentTime)+"\n"
                     +"掉电前时间："+formatTime(afterShutDownData.getTimeBeforeShutDown())+"\n"
                     +"时间不超过\"一小时\"RTC测试通过");
             display.setTextColor(Color.BLUE);
             isRtcPass = true;
-            //这里写入RTC测试结果数据库
+            //这里写入RTC测试结果数据库 并且统计整机测试是否通过
             TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).updateRTC(1);
+            TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).updateISPass();
         }
 
         appendReporter.setOnClickListener(new View.OnClickListener() {
@@ -127,13 +135,19 @@ public class EndActivity extends Activity {
             @Override
             public void run() {
 
-                    debug.logd("RTC测试结果写入成功");
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.show();
+                        }
+                    });
                     int temp = TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).upLoad();
                     if(temp == 0){
                         syncDisplay("上传测试报告成功，请点击下方按钮，清除测试数据和卸载本程序");
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
+                                progressDialog.dismiss();
                                 Toast.makeText(EndActivity.this,"上传测试报告成功",Toast.LENGTH_LONG).show();
                                 reStroe.setEnabled(true);
                                 reStroe.setTextColor(Color.BLACK);
@@ -144,6 +158,7 @@ public class EndActivity extends Activity {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
+                                progressDialog.dismiss();
                                 Toast.makeText(EndActivity.this,"上传测试报告失败",Toast.LENGTH_LONG).show();
                             }
                         });
@@ -152,6 +167,7 @@ public class EndActivity extends Activity {
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
+                                progressDialog.dismiss();
                                 Toast.makeText(EndActivity.this,"上传测试报告失败",Toast.LENGTH_LONG).show();
                             }
                         });

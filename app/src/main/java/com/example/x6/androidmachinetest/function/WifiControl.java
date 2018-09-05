@@ -114,7 +114,7 @@ public class WifiControl {
             public void run() {
                 /* 先关闭其他网络 */
                 ethControl.ethClose();
-                mobileNetControl.OpenFlyMode();
+                mobileNetControl.disableData();
                 WifiClose();
                 try {
                     Thread.sleep(1*1000);

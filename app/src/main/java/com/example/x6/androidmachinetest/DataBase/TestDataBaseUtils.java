@@ -132,6 +132,8 @@ public class TestDataBaseUtils {
                 }else if(res.equals("true")){
                     return 0;
                 }
+            }else{
+                return -2;
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -243,12 +245,12 @@ public class TestDataBaseUtils {
                     jsonObject.put("RTCNotPassTimes",cursor.getString(cursor.getColumnIndex("RTCNotPassTimes")));
                     jsonObject.put("RTCEndResult",cursor.getString(cursor.getColumnIndex("RTCEndResult")));
                     jsonObject.put("ISPass",cursor.getString(cursor.getColumnIndex("ISPass")));
-                    jsonObject.put("TestDateyyyy",cursor.getString(cursor.getColumnIndex("TestDateyyyy")));
-                    jsonObject.put("TestDateMM",cursor.getString(cursor.getColumnIndex("TestDateMM")));
-                    jsonObject.put("TestDatedd",cursor.getString(cursor.getColumnIndex("TestDatedd")));
-                    jsonObject.put("TestTimeHH",cursor.getString(cursor.getColumnIndex("TestTimeHH")));
-                    jsonObject.put("TestTimemm",cursor.getString(cursor.getColumnIndex("TestTimemm")));
-                    jsonObject.put("TestTimess",cursor.getString(cursor.getColumnIndex("TestTimess")));
+                    jsonObject.put("Test_Dateyyyy",cursor.getString(cursor.getColumnIndex("TestDateyyyy")));
+                    jsonObject.put("Test_DateMM",cursor.getString(cursor.getColumnIndex("TestDateMM")));
+                    jsonObject.put("Test_Datedd",cursor.getString(cursor.getColumnIndex("TestDatedd")));
+                    jsonObject.put("Test_TimeHH",cursor.getString(cursor.getColumnIndex("TestTimeHH")));
+                    jsonObject.put("Test_Timemm",cursor.getString(cursor.getColumnIndex("TestTimemm")));
+                    jsonObject.put("Test_Timess",cursor.getString(cursor.getColumnIndex("TestTimess")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -287,7 +289,7 @@ public class TestDataBaseUtils {
                 endResults[12] = cursor.getInt(cursor.getColumnIndex("RS232EndResult"));
                 endResults[13] = cursor.getInt(cursor.getColumnIndex("RS485EndResult"));
                 endResults[14] = cursor.getInt(cursor.getColumnIndex("GPIOEndResult"));
-                endResults[15] = cursor.getInt(cursor.getColumnIndex("SpkEndResult"));
+                endResults[15] = cursor.getInt(cursor.getColumnIndex("EthEndResult"));
                 endResults[16] = cursor.getInt(cursor.getColumnIndex("RTCEndResult"));
         }
         for(int j : endResults){

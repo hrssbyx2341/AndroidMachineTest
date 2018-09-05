@@ -81,7 +81,7 @@ public class MobileNet extends Common {
             @Override
             public void run() {
                 /*先关闭其他网络*/
-                mobileNetControl.CloseFlaMode();
+//                mobileNetControl.CloseFlaMode();
                 wifiControl.WifiClose();
                 ethControl.ethClose();
                 mobileNetControl.enableData();

@@ -74,6 +74,64 @@ public class EthControl {
         return result;
     }
 
+
+    public boolean ethOpen(){
+        boolean result = true;
+        if(machineInfoData.cpuName != null){
+            String cmd = "";
+            if(machineInfoData.cpuName.equals(PreMachineInfo.A33)){
+                debug.logd("CPU型号A33");
+                cmd = "netcfg "+machineInfoData.ETH_A33+" up";
+                if(0 != suCommand.execRootCmdSilent(cmd)) {
+                    debug.loge("A33启动以太网失败");
+                    result = false;
+                }
+            }else if(machineInfoData.cpuName.equals(PreMachineInfo.H3)){
+                debug.logd("CPU型号H3");
+                cmd = "netcfg "+machineInfoData.ETH_H3+" up";
+                if(0 != suCommand.execRootCmdSilent(cmd)) {
+                    result = false;
+                    debug.loge("H3启动以太网失败");
+                }
+            }else if(machineInfoData.cpuName.equals(PreMachineInfo.RK3368)){
+                debug.logd("CPU型号RK3368");
+                cmd = "netcfg "+machineInfoData.ETH_RK3368+" up";
+                if(0 != suCommand.execRootCmdSilent(cmd)) {
+                    result = false;
+                    debug.loge("RK3368启动以太网失败");
+                }
+            }else if(machineInfoData.cpuName.equals(PreMachineInfo.RK3288)){
+                debug.logd("CPU型号是RK3288");
+                if(machineInfoData.ETH_RK3288_2 == null && machineInfoData.ETH_RK3288_1 != null){
+                    debug.logd("设备型号是B601");
+                    cmd = "netcfg "+machineInfoData.ETH_RK3288_1+" up";
+                    if(0 != suCommand.execRootCmdSilent(cmd)){
+                        debug.loge("RK3288 B601 启动以太网失败");
+                        result = false;
+                    }
+                }else if(machineInfoData.ETH_RK3288_1 !=null && machineInfoData.ETH_RK3288_2 !=null){
+                    debug.logd("设备型号是B701");
+                    cmd = "netcfg "+machineInfoData.ETH_RK3288_1+" up";
+                    if(0 != suCommand.execRootCmdSilent(cmd)) {
+                        debug.loge("RK3288 B701 启动以太网1失败");
+                        return  false;
+                    }
+                    cmd = "netcfg "+machineInfoData.ETH_RK3288_2+" up";
+                    if(0 != suCommand.execRootCmdSilent(cmd)){
+                        debug.loge("RK3288 B701 启动以太网2失败");
+                        return false;
+                    }
+                }
+            }
+        }else{
+            result = false;
+            debug.loge("没有设备CPU型号？");
+        }
+        return result;
+    }
+
+
+
     public final static int ETH_A33_SUCESSFUL = 1;
     public final static int ETH_A33_UP_FAILED = 2;
     public final static int ETH_A33_DHCP_FAILED = 3;
@@ -108,7 +166,7 @@ public class EthControl {
         WifiControl wifiControl = new WifiControl(context);
         wifiControl.WifiClose();
         MobileNetControl mobileNetControl = new MobileNetControl();
-        mobileNetControl.OpenFlyMode();
+        mobileNetControl.disableData();
         try {
             Thread.sleep(1*1000);
         } catch (InterruptedException e) {
