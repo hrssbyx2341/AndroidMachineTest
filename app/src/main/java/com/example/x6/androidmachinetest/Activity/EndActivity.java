@@ -94,6 +94,7 @@ public class EndActivity extends Activity {
                 reStroreStart();
             }
         });
+        
 
     }
 
