@@ -126,11 +126,11 @@ public class TestDataBaseUtils {
             if(code == 200){
                 InputStream inputStream = connection.getInputStream();
                 String res = readBytes(inputStream);
-                debug.loge(res);
-                if(res.equals("false")){
-                    return -2;
-                }else if(res.equals("true")){
+                debug.loge("服务器回应码："+res);
+                if(res.equals("0")){
                     return 0;
+                }else{
+                    return -999;
                 }
             }else{
                 return -2;
@@ -142,7 +142,6 @@ public class TestDataBaseUtils {
             e.printStackTrace();
             return -1;
         }
-        return 0;
     }
 
     private String readBytes(InputStream inputStream) throws IOException {
@@ -170,6 +169,8 @@ public class TestDataBaseUtils {
 
         if(cursor.moveToFirst()){
                 try {
+                    jsonObject.put("USER",TestDataBaseInfo.USER);
+                    jsonObject.put("PASSWORD",TestDataBaseInfo.PASSWORD);
                     jsonObject.put("Name",cursor.getString(cursor.getColumnIndex("Type"))+"_"+cursor.getString(cursor.getColumnIndex("Uuid")));
                     jsonObject.put("Type",cursor.getString(cursor.getColumnIndex("Type")));
                     jsonObject.put("CPUType",cursor.getString(cursor.getColumnIndex("CPUType")));

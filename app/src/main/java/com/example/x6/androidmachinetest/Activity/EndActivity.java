@@ -163,7 +163,7 @@ public class EndActivity extends Activity {
                             }
                         });
                         syncDisplay("上传测试报告失败，请检查网线是否插入，以太网是否打开");
-                    }else if(temp == -2){
+                    }else{
                         handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -171,7 +171,7 @@ public class EndActivity extends Activity {
                                 Toast.makeText(EndActivity.this,"上传测试报告失败",Toast.LENGTH_LONG).show();
                             }
                         });
-                        syncDisplay("上传测试报告失败，服务端无法存储上传数据，请联系研发");
+                        syncDisplay("上传测试报告失败,服务器回应码\""+String.valueOf(temp)+"\"，服务端无法存储上传数据，请联系研发");
                     }
             }
         }).start();
