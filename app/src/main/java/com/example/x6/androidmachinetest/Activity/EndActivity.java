@@ -2,8 +2,10 @@ package com.example.x6.androidmachinetest.Activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.x6.androidmachinetest.Core.MachineInfoData;
 import com.example.x6.androidmachinetest.Core.PreMachineInfo;
 import com.example.x6.androidmachinetest.Data.AfterShutDownData;
 import com.example.x6.androidmachinetest.DataBase.TestDataBaseUtils;
@@ -39,6 +42,7 @@ public class EndActivity extends Activity {
     private Button appendReporter,reStroe;
     private TextView display;
     private ProgressDialog progressDialog;
+    private ProgressDialog progressDialog1;
     private boolean isRtcPass = true;
     private SuCommand suCommand;
     private Handler handler = new Handler();
@@ -51,6 +55,13 @@ public class EndActivity extends Activity {
         progressDialog.setTitle("提示：");
         progressDialog.setMessage("正在上传测试报告...");
         progressDialog.setCanceledOnTouchOutside(false);
+
+
+        progressDialog1 = new ProgressDialog(this);
+        progressDialog1.setTitle("提示：");
+        progressDialog1.setMessage("正在进行相关配置...");
+        progressDialog1.setCanceledOnTouchOutside(false);
+
         afterShutDownData = AfterShutDownData.getAfterShutDownData();
         setContentView(R.layout.activity_end);
         appendReporter = (Button) findViewById(R.id.appendResult);
@@ -94,29 +105,70 @@ public class EndActivity extends Activity {
                 reStroreStart();
             }
         });
-        
+
 
     }
 
     private void reStroreStart(){
+
         new Thread(new Runnable() {
             @Override
             public void run() {
-               /***************************************************/
-               /*  这里删除程序里面生成的所有文件，并且卸载程序   */
-               /***************************************************/
-               /*打开所有网络*/
-                new WifiControl(EndActivity.this.getApplicationContext()).WifiOpen();
-                new MobileNetControl().enableData(); //打开移动网络
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog1.show();
+                    }
+                });
+
+               /********************************************************************/
+               /*  这里删除程序里面生成的所有文件，并且卸载程序,进行相关配置开始   */
+               /********************************************************************/
+
                 /* 删除录像文件 */
                 File file = new File("/sdcard/testVideo.3gp");
                 if(file.exists()){
                     file.delete();
                 }
+                /* 这里设备相关设置配置开始 */
+
+                if(TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).getMachineType().equals(PreMachineInfo.B301D_ELE01)) {//小青蛙配置
+                    debug.logw("小青蛙配置："+TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).getMachineType());
+                    /* 1、关闭所有声音*/
+                    AudioManager audioManager = (AudioManager) EndActivity.this.getSystemService(Context.AUDIO_SERVICE);
+                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,0,AudioManager.FLAG_PLAY_SOUND);
+                    audioManager.setStreamVolume(AudioManager.STREAM_RING,0,AudioManager.FLAG_PLAY_SOUND);
+                    audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM,0,AudioManager.FLAG_PLAY_SOUND);
+                    audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL,0,AudioManager.FLAG_PLAY_SOUND);
+                    audioManager.setStreamVolume(AudioManager.STREAM_ALARM,0,AudioManager.FLAG_PLAY_SOUND);
+                    /* 2、关闭WIFI*/
+                    new WifiControl(EndActivity.this.getApplicationContext()).WifiClose();
+                    /* 3、打开移动网络 */
+                    new MobileNetControl().enableData();
+                }else{//默认配置
+                    /* 2、关闭WIFI*/
+                    new WifiControl(EndActivity.this.getApplicationContext()).WifiOpen();
+                    /* 3、打开移动网络 */
+                    new MobileNetControl().enableData();
+                }
+
+                /* 这里设备相关设置配置结束 */
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog1.dismiss();
+                    }
+                });
+                /************************************************************************/
+                /*  这里删除程序里面生成的所有文件，并且卸载程序,进行相关配置结束       */
+                /************************************************************************/
 
                Uri uri = Uri.fromParts("package","com.example.x6.androidmachinetest",null);
                Intent intent = new Intent(Intent.ACTION_DELETE,uri);
                EndActivity.this.startActivity(intent);
+
             }
         }).start();
     }
@@ -143,6 +195,7 @@ public class EndActivity extends Activity {
                         }
                     });
                     int temp = TestDataBaseUtils.getTestDataBaseUtils(EndActivity.this.getApplicationContext()).upLoad();
+                    debug.logw("上传返回值"+String.valueOf(temp));
                     if(temp == 0){
                         syncDisplay("上传测试报告成功，请点击下方按钮，清除测试数据和卸载本程序");
                         handler.post(new Runnable() {

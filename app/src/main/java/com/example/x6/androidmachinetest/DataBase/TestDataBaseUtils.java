@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.UrlQuerySanitizer;
+import android.util.Log;
 
 import com.example.x6.androidmachinetest.Core.MachineInfoData;
 import com.example.x6.androidmachinetest.Data.PreData;
@@ -128,11 +129,14 @@ public class TestDataBaseUtils {
                 String res = readBytes(inputStream);
                 debug.loge("服务器回应码："+res);
                 if(res.equals("0")){
+                    debug.logd("上传成功");
                     return 0;
                 }else{
+                    debug.loge("上传失败");
                     return -999;
                 }
             }else{
+                debug.loge("机器未联网");
                 return -2;
             }
         } catch (MalformedURLException e) {
@@ -261,6 +265,21 @@ public class TestDataBaseUtils {
         return result;
     }
 
+
+    /**************************************************************/
+    /*                      获取设备型号                          */
+    /**************************************************************/
+    public String getMachineType(){
+        String result = null;
+
+        SQLiteDatabase dbr = testDataBaseOpenHelper.getReadableDatabase();
+        String[] Times = new String[]{};
+        Cursor cursor = dbr.rawQuery("select * from "+TestDataBaseInfo.tableName+" where ID=1",Times);
+        if(cursor.moveToFirst()){
+            result = cursor.getString(cursor.getColumnIndex("Type"));
+        }
+        return result;
+    }
 
     /**************************************************************/
     /*              测试结果总结数据库操作                        */

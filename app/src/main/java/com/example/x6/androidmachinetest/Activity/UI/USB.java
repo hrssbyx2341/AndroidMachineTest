@@ -7,9 +7,12 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.example.x6.androidmachinetest.Activity.TestActivity;
+import com.example.x6.androidmachinetest.Core.MachineInfoData;
+import com.example.x6.androidmachinetest.Core.PreMachineInfo;
 import com.example.x6.androidmachinetest.R;
 import com.example.x6.androidmachinetest.function.Debug;
 import com.example.x6.androidmachinetest.function.SuCommand;
+import com.example.x6.gpioctl.GpioUtils;
 
 import java.util.Vector;
 
@@ -66,13 +69,41 @@ public class USB extends Common{
         CheckUSB();
     }
 
+
+    /** 小青蛙 MOS管测试 标志位 **/
+    private boolean isMOSDown = false;
     private void CheckUSB(){
         new Thread(new Runnable() {
             @Override
             public void run() {
+                /** 小青蛙(H3) 进行USB MOS管测试 开始 **/
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(MachineInfoData.getMachineInfoData().typeName.equals(PreMachineInfo.B301D_ELE01)){
+                            GpioUtils gpioUtils = GpioUtils.getGpioUtils("/dev/sunxi_gpio");
+                            gpioUtils.setGpioDirection(gpioUtils.getGpioPin('G',1),GpioUtils.GPIO_DIRECTION_OUT);
+                            gpioUtils.gpioSetValue(gpioUtils.getGpioPin('G',1),GpioUtils.GPIO_VALUE_LOW);
+                            isMOSDown = true;
+                            try {
+                                Thread.sleep(6*1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            gpioUtils.gpioSetValue(gpioUtils.getGpioPin('G',1),GpioUtils.GPIO_VALUE_HIGH);
+                            isMOSDown = false;
+                            gpioUtils.close();
+                        }
+                    }
+                }).start();
+                /** 小青蛙(H3) 进行USB MOS管测试 结束 **/
                 while (isPooling){
                     Vector<String> vector = suCommand.execRootCmd("busybox lsusb");
-                    String string = "请依次用USB设备测试各个USB口，当前设备上USB设备如下：\n";
+                    String string;
+                    if(!isMOSDown)
+                        string = "请依次用USB设备测试各个USB口，当前设备上USB设备如下：\n";
+                    else
+                        string = "请依次用USB设备测试各个USB口，当前关闭HUB进行MOS管测试，此时部分USB设备无法识别：\n";
                     int i = 0;
                     for(i = 0; i < vector.size(); i++){
                         string += vector.get(i)+"\n";
