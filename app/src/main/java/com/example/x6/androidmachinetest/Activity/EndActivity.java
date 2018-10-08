@@ -2,6 +2,7 @@ package com.example.x6.androidmachinetest.Activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.x6.androidmachinetest.Activity.UI.BlueTooth;
 import com.example.x6.androidmachinetest.Core.MachineInfoData;
 import com.example.x6.androidmachinetest.Core.PreMachineInfo;
 import com.example.x6.androidmachinetest.Data.AfterShutDownData;
@@ -147,8 +149,11 @@ public class EndActivity extends Activity {
                     /* 3、打开移动网络 */
                     new MobileNetControl().enableData();
                 }else{//默认配置
+                    /* 1、关闭蓝牙 */
+                    if(BluetoothAdapter.getDefaultAdapter().isEnabled())
+                        BluetoothAdapter.getDefaultAdapter().disable();
                     /* 2、关闭WIFI*/
-                    new WifiControl(EndActivity.this.getApplicationContext()).WifiOpen();
+                    new WifiControl(EndActivity.this.getApplicationContext()).WifiClose();
                     /* 3、打开移动网络 */
                     new MobileNetControl().enableData();
                 }

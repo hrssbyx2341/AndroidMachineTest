@@ -92,7 +92,7 @@ public class GPS extends Common {
                 notSupport.setTextColor(Color.BLACK);
                 handler.sendEmptyMessage(1);
                 finish();
-                startTest(context,handler);
+                startTest(context, handler);
             }
         });
         notSupport.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +118,7 @@ public class GPS extends Common {
 
         /*开始GPS定位*/
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if(locationManager == null)//判断GPS是否返回非空
+        if (locationManager == null)//判断GPS是否返回非空
             return;
         List<String> list = locationManager.getProviders(true);
         if (list.contains(LocationManager.GPS_PROVIDER)) {
