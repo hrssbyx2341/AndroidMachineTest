@@ -438,6 +438,9 @@ public class TestDataBaseUtils {
     public void updateScreen(int isPass){
         updateAddTestData("Screen",isPass);
     }
+    public void updateAD(int isPass){
+        //什么都不做
+    }
     public void updateTS(int isPass){
         updateAddTestData("TS",isPass);
     }

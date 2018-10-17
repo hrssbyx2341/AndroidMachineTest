@@ -162,8 +162,9 @@ public class PlanTest {
             /*
             这里如果需要测试屏幕和触摸就把注释打开
              */
-//            machineInfoData.SCREEN = true;
+            machineInfoData.SCREEN = true;
 //            machineInfoData.TOUCH_SCREEN = true;
+            machineInfoData.B701AD = true;
 
             machineInfoData.GPIONUM = 4;
             int[] gpio = new int[machineInfoData.GPIONUM];
@@ -250,6 +251,8 @@ public class PlanTest {
             vector.add(PreMachineInfo.TFCARD_TEST);
         if(machineInfoData.SCREEN)
             vector.add(PreMachineInfo.SCREEN_TEST);
+        if(machineInfoData.B701AD)
+            vector.add(PreMachineInfo.B701AD_TEST);
         if(machineInfoData.TOUCH_SCREEN)
             vector.add(PreMachineInfo.TOUCH_SCREEN_TEST);
         if(machineInfoData.cpuName != null) {
@@ -299,6 +302,7 @@ public class PlanTest {
         machineInfoData.ISWIFI = false;
         machineInfoData.ISPHONE = false;
         machineInfoData.SCREEN = false;
+        machineInfoData.B701AD = false;
         machineInfoData.TOUCH_SCREEN = false;
         machineInfoData.GPIO = null;
         machineInfoData.GPIONUM = -1;

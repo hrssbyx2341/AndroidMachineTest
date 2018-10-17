@@ -75,6 +75,7 @@ public class PreMachineInfo {
     public final static String USB_TEST = "USB";
     public final static String TFCARD_TEST = "TF卡";
     public final static String SCREEN_TEST = "屏幕";
+    public final static String B701AD_TEST = "AD测试";
     public final static String TOUCH_SCREEN_TEST = "触摸";
     public final static String GPIO_A33_TEST = "A33 GPIO";
     public final static String GPIO_RK3288_TEST = "3288 GPIO";

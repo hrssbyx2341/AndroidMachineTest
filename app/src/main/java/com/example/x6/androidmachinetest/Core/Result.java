@@ -154,6 +154,7 @@ public class Result {
 
     public String USBTest = null;
     public String ScreenTest = null;
+    public String ADTest = null;
     public String TouchScreenTest = null;
 
     public String GpioTest = null;
@@ -199,6 +200,8 @@ public class Result {
             result+="TF卡测试："+TFCARDTest+"\n";
         if(ScreenTest != null)
             result+= "屏幕测试："+ScreenTest+"\n";
+        if(ADTest != null)
+            result+= "AD测试："+ADTest+"\n";
         if(TouchScreenTest != null)
             result+= "触摸测试："+TouchScreenTest+"\n";
         if(GpioTest != null)
@@ -226,6 +229,7 @@ public class Result {
         RS485ReMark = null;
         USBTest = null;
         ScreenTest = null;
+        ADTest = null;
         TouchScreenTest = null;
         GpioTest = null;
         GpioReMark = null;

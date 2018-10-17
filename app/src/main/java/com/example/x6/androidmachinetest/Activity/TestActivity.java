@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.x6.androidmachinetest.Activity.UI.AD;
 import com.example.x6.androidmachinetest.Activity.UI.BlueTooth;
 import com.example.x6.androidmachinetest.Activity.UI.CameraOne;
 import com.example.x6.androidmachinetest.Activity.UI.Eth;
@@ -75,11 +76,13 @@ public class TestActivity extends Activity {
     private USB usbTest = null;
     private GPIO gpioTest = null;
     private Screen screenTets = null;
+    private AD adTest = null;
     private Touch touchTest = null;
     private MobileNet mobileNet = null;
     private RTC rtcTest = null;
     private TFCARD tfcardTest = null;
     private GPS gpsTest = null;
+
 
     /*************************************************/
     /*      测试数据在每次按下下一项后写入数据库     */
@@ -243,6 +246,18 @@ public class TestActivity extends Activity {
                     testDataBaseUtils.updateScreen(0);
                 }else if(result.ScreenTest.equals(NotSupport)){
                     testDataBaseUtils.updateScreen(-1);
+                }
+            }
+        }
+        if(adTest != null){
+            if(temp == adTest.getPosition()){
+                debug.loge("ad");
+                if(result.ADTest.equals(Pass)){
+                    testDataBaseUtils.updateAD(1);
+                }else if(result.ADTest.equals(NotPass)){
+                    testDataBaseUtils.updateAD(0);
+                }else if(result.ADTest.equals(NotSupport)){
+                    testDataBaseUtils.updateAD(-1);
                 }
             }
         }
@@ -575,6 +590,21 @@ public class TestActivity extends Activity {
                 }
             }
         }
+        if(adTest != null){
+            if(currentPosition == adTest.getPosition()){
+                switch (isPass){
+                    case 1:
+                        result.ADTest = "测试通过";
+                        break;
+                    case 0:
+                        result.ADTest = "测试不通过";
+                        break;
+                    case -1:
+                        result.ADTest = "设备不支持";
+                        break;
+                }
+            }
+        }
 
         if(touchTest != null){
             if(currentPosition == touchTest.getPosition()){
@@ -780,6 +810,13 @@ public class TestActivity extends Activity {
                 debug.logd("添加屏幕测试布局");
             }
         }
+        if(adTest != null){
+            if(adTest.getPosition() == nextTestNum){
+                linearLayout.addView(adTest.getLineout());
+                adTest.startTest(this,handler);
+                debug.logd("添加AD测试");
+            }
+        }
         if(touchTest != null){
             if(touchTest.getPosition() == nextTestNum){
                 linearLayout.addView(touchTest.getLineout());
@@ -911,6 +948,13 @@ public class TestActivity extends Activity {
                 debug.logd("移除屏幕测试布局");
             }
         }
+        if(adTest != null){
+            if(adTest.getPosition() == currentTest){
+                adTest.finish();
+                linearLayout.removeView(adTest.getLineout());
+                debug.logd("移除AD测试布局");
+            }
+        }
         if(touchTest != null){
             if(touchTest.getPosition() == currentTest){
                 touchTest.finish();
@@ -1002,7 +1046,10 @@ public class TestActivity extends Activity {
             } else if (string.equals(PreMachineInfo.SCREEN_TEST)) {
                 screenTets = new Screen(context,"屏幕测试是否通过",handler);
                 screenTets.setPosition(i);
-            } else if (string.equals(PreMachineInfo.TOUCH_SCREEN_TEST)) {
+            }else if(string.equals(PreMachineInfo.B701AD_TEST)){
+                adTest = new AD(context,"AD测试是否通过",handler);
+                adTest.setPosition(i);
+            }else if (string.equals(PreMachineInfo.TOUCH_SCREEN_TEST)) {
                 touchTest = new Touch(context,"触摸测试是否通过",handler);
                 touchTest.setPosition(i);
             } else if (string.equals(PreMachineInfo.GPIO_A33_TEST)
@@ -1127,6 +1174,10 @@ public class TestActivity extends Activity {
         if(screenTets != null){
             if(currentPosition == screenTets.getPosition())
                 screenTets.finish();
+        }
+        if(adTest != null){
+            if(currentPosition == adTest.getPosition())
+                adTest.finish();
         }
         if(touchTest != null){
             if(currentPosition == touchTest.getPosition())
