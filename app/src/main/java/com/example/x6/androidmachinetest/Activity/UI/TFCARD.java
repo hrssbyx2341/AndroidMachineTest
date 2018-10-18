@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.x6.androidmachinetest.Activity.TestActivity;
 import com.example.x6.androidmachinetest.function.Debug;
@@ -29,6 +30,7 @@ public class TFCARD extends Common {
         getYes().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                debug.loge("通过按键按下了");
                 getYes().setEnabled(false);
                 getNo().setEnabled(false);
                 getNo().setTextColor(Color.WHITE);
@@ -39,6 +41,7 @@ public class TFCARD extends Common {
         getNo().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                debug.loge("不通过按键按下了");
                 getYes().setEnabled(false);
                 getNo().setEnabled(false);
                 getYes().setTextColor(Color.WHITE);
@@ -49,6 +52,7 @@ public class TFCARD extends Common {
         getReTest().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                debug.loge("重测按键按下了");
                 getYes().setEnabled(true);
                 getNo().setEnabled(true);
                 getYes().setTextColor(Color.BLACK);
@@ -56,6 +60,7 @@ public class TFCARD extends Common {
                 handler.sendEmptyMessage(1);
             }
         });
+        getReTest().setEnabled(false);
     }
 
     @Override
@@ -63,6 +68,10 @@ public class TFCARD extends Common {
         super.startTest(context, handler);
         CheckTFCARD();
     }
+
+
+    private boolean isYesPress = false;
+    private boolean isNoPress = false;
 
     private void CheckTFCARD(){
         new Thread(new Runnable() {
@@ -75,8 +84,20 @@ public class TFCARD extends Common {
 
                     if(0 == suCommand.execRootCmdSilent(cmd)){
                         string += "当前检测到TF卡插入";
+                        if(!isYesPress){
+                            debug.logd("检测到TF卡");
+                            pressButton(true);
+                            isYesPress = true;
+                            isNoPress = false;
+                        }
                     }else{
                         string += "当前没有检测到TF卡";
+                        if(!isNoPress){
+                            debug.loge("没有检测到TF卡");
+                            pressButton(false);
+                            isYesPress = false;
+                            isNoPress = true;
+                        }
                     }
                     syncMessage(string);
                     try {
@@ -87,6 +108,29 @@ public class TFCARD extends Common {
                 }
             }
         }).start();
+    }
+
+    private void pressButton(final boolean isPress){
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(isPress){
+                    getYes().setEnabled(false);
+                    getNo().setEnabled(false);
+                    getNo().setTextColor(Color.WHITE);
+                    getYes().setTextColor(Color.BLACK);
+                    handler.sendEmptyMessage(0);
+                    TestActivity.syncResultList(handler,getPosition(),1);
+                }else{
+                    getYes().setEnabled(false);
+                    getNo().setEnabled(false);
+                    getYes().setTextColor(Color.WHITE);
+                    getNo().setTextColor(Color.BLACK);
+                    handler.sendEmptyMessage(0);
+                    TestActivity.syncResultList(handler,getPosition(),0);
+                }
+            }
+        });
     }
 
     public void finish(){
